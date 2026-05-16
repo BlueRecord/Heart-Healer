@@ -1,0 +1,25 @@
+CardManager class logic
+
+1.PrepareInitDeck // 덱 초기화(준비)
+//시작 단계 allCards 중 기본 카드를 deck에 할당,deck default 초기화 -> Start
+//카드 획득 deck += allcards 중 획득할 카드, deck++ -> Update
+
+
+
+2.DrawCard // 카드 드로우
+//hand++, hand data 카드 시각화해서 보여주기
+//maxHandSize보다 크면 Grave로 보내기
+//+ 드로우 모션
+
+3.RefillDeckFromGrave
+//Grave를 deck으로 pop해서 data보내주고 Shuffle()
+
+4.Shuffle
+//Deck data random으로 push하기
+
+//logic initDeck -> Shuffle -> DrawCard -> 
+RefillDeckFromGrave -> Shuffle -> DrawCard
+
+Start
+
+Update

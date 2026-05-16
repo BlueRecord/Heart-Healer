@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MonsterState : EntityState
+public class MonsterStats : EntityStats
 {
     void Start()
     {
@@ -8,6 +8,6 @@ public class MonsterState : EntityState
     }
     void Update()
     {
-        
+
     }
 }

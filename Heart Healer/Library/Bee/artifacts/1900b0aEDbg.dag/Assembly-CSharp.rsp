@@ -473,9 +473,10 @@
 "Assets/Card/Card.cs"
 "Assets/Card/CardData.cs"
 "Assets/Card/CardManager.cs"
-"Assets/State/EntityState.cs"
-"Assets/State/MonsterState.cs"
-"Assets/State/PlayerState.cs"
+"Assets/Card/DeckManager.cs"
+"Assets/Stats/EntityStats.cs"
+"Assets/Stats/MonsterStats.cs"
+"Assets/Stats/PlayerStats.cs"
 -langversion:9.0
 /deterministic
 /optimize-

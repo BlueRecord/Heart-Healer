@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EntityState : MonoBehaviour
+public class EntityStats : MonoBehaviour
 {
     [Header("HP Stats")]
     [SerializeField] protected int hp;

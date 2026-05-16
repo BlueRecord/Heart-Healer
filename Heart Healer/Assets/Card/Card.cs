@@ -3,7 +3,7 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     public CardData data;
-    public void Use(EntityState target, PlayerState player)
+    public void Use(EntityStats target, PlayerStats player)
     {
         //코스트 체크 및 소모
         if(player.CompareCost(data.cost)) return ;

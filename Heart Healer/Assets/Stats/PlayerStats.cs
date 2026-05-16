@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class PlayerState : EntityState
+public class PlayerStats : EntityStats
 {
-
     [Header("Energy Stats")]
     [SerializeField] protected int maxCost = 3;
     [SerializeField] protected int currentCost;
@@ -27,6 +26,6 @@ public class PlayerState : EntityState
 
     void Update()
     {
-        
+
     }
 }

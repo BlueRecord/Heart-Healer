@@ -1,0 +1,12 @@
+Assets/
+└── Scripts/
+    ├── CardSystem/   <-- 카드 관련 로직을 한곳에 모으는 폴더
+    │   ├── CardData.cs           (카드의 정보/데이터 - ScriptableObject)
+    │   ├── CardController.cs     (화면에 보이는 개별 카드 오브젝트)
+    │   ├── CardManager.cs        (전투 중 드로우/무덤 실시간 관리)
+    │   └── DeckManager.cs        (게임 전역 소장 덱 관리)
+    ├── Stats/ <-- 각 entity의 스텟 표시
+    │
+    ├── Battle/       <-- 턴제 시스템, AI 패턴, 데미지 계산 등
+    ├── MapSystem/    <-- 노드 생성, 이동 로직
+    └── UI/           <-- 메인 메뉴, 상점 UI 등 전역 UI
