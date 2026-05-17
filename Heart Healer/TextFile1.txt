@@ -2,7 +2,8 @@ CardManager class logic
 
 1.PrepareInitDeck // 덱 초기화(준비)
 //시작 단계 allCards 중 기본 카드를 deck에 할당,deck default 초기화 -> Start
-//카드 획득 deck += allcards 중 획득할 카드, deck++ -> Update
+//카드 획득 deck += allcards 중 획득할 카드, deck++ -> Update 이거 하면 안됨
+함수를 한 번만 호출해야 함.
 
 
 
@@ -13,6 +14,7 @@ CardManager class logic
 
 3.RefillDeckFromGrave
 //Grave를 deck으로 pop해서 data보내주고 Shuffle()
+상시 실행이 아님. DrawCard() deck.Count == 0일때만 발동하게 조건문 안에 넣기
 
 4.Shuffle
 //Deck data random으로 push하기
@@ -20,6 +22,75 @@ CardManager class logic
 //logic initDeck -> Shuffle -> DrawCard -> 
 RefillDeckFromGrave -> Shuffle -> DrawCard
 
+Push/Pop은 Stack, LIst<t>를 써야 함.
+List의 x번째 인덱스를 가져온 뒤 삭제(RemoveAt(0))하는 방식을 써야 함. 
 Start
 
 Update
+
+
+------
+// 1. PrepareInitDeck (전투 시작 시 최초 1회)
+void PrepareInitDeck()
+{
+    // DeckManager(전역 소장 덱)에서 카드 리스트를 복사해옴
+    drawDeck = new List<CardData>(DeckManager.Instance.playerOwnedDeck);
+    
+    // 무덤과 핸드 비우기 (초기화)
+    hand.Clear();
+    grave.Clear();
+    
+    // 첫 셔플
+    Shuffle();
+}
+
+// 4. Shuffle (드로우 덱 자체를 랜덤하게 섞음)
+void Shuffle()
+{
+    // Fisher-Yates 알고리즘을 사용해 drawDeck(List)의 인덱스를 무작위로 섞음
+    //LINQ 정렬하기
+
+}
+
+// 2. DrawCard (카드를 한 장 뽑음)
+void DrawCard()
+{
+    // [예외 처리] 3. 만약 드로우 덱이 비어있다면 무덤에서 리필
+    if (drawDeck.Count == 0)
+    {
+        RefillDeckFromGrave();
+    }
+
+    // 만약 무덤도 비어서 진짜 뽑을 카드가 아예 없다면 리턴
+    if (drawDeck.Count == 0) return;
+
+    // 맨 위의 카드 한 장 지정 (0번 인덱스)
+    CardData drawnCard = drawDeck[0];
+    drawDeck.RemoveAt(0); // 덱에서 제거
+
+    // 핸드가 가득 찼는지 체크
+    if (hand.Count < maxHandSize)
+    {
+        hand.Add(drawnCard); // 핸드 데이터에 추가
+        CardUI.CreateCardMotion(drawnCard); // UI에 드로우 연출 실행 명령
+    }
+    else
+    {
+        grave.Add(drawnCard); // 핸드가 꽉 찼으면 바로 무덤으로
+        Debug.Log("손패가 가득 차 카드가 무덤으로 버려졌습니다.");
+    }
+}
+
+// 3. RefillDeckFromGrave (덱이 비었을 때 무덤을 회수)
+void RefillDeckFromGrave()
+{
+    // 무덤에 있는 모든 데이터를 드로우 덱으로 이동
+    drawDeck.AddRange(grave);
+    grave.Clear(); // 무덤 비우기
+    
+    // 다시 리필되었으니 반드시 섞어줌
+    Shuffle();
+    Debug.Log("무덤의 카드를 덱으로 되돌리고 셔플했습니다.");
+}
+
+DeckManager보다는 PrepareInitDeck 먼저(Bottom-up 방식)
