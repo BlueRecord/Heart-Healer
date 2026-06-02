@@ -133,6 +133,7 @@
 -define:ENABLE_TILEMAP
 -define:ENABLE_TIMELINE
 -define:ENABLE_INPUT_SYSTEM
+-define:ENABLE_LEGACY_INPUT_MANAGER
 -define:TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
 -define:TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER
 -define:TEXTCORE_FONT_ENGINE_1_6_OR_NEWER
@@ -393,6 +394,8 @@
 -r:"C:/Program Files/Unity/Hub/Editor/6000.3.11f1/Editor/Data/NetStandard/compat/2.1.0/shims/netstandard/System.Xml.XmlDocument.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/6000.3.11f1/Editor/Data/NetStandard/compat/2.1.0/shims/netstandard/System.Xml.XmlSerializer.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/6000.3.11f1/Editor/Data/NetStandard/ref/2.1.0/netstandard.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/6000.3.11f1/Editor/Data/PlaybackEngines/AndroidPlayer/Unity.Android.Gradle.dll"
+-r:"C:/Program Files/Unity/Hub/Editor/6000.3.11f1/Editor/Data/PlaybackEngines/AndroidPlayer/Unity.Android.Types.dll"
 -r:"Library/PackageCache/com.unity.collections@aea9d3bd5e19/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll"
 -r:"Library/PackageCache/com.unity.collections@aea9d3bd5e19/Unity.Collections.Tests/System.IO.Hashing/System.IO.Hashing.dll"
 -r:"Library/PackageCache/com.unity.collections@aea9d3bd5e19/Unity.Collections.Tests/System.Runtime.CompilerServices.Unsafe/System.Runtime.CompilerServices.Unsafe.dll"
@@ -473,7 +476,10 @@
 "Assets/Card/Card.cs"
 "Assets/Card/CardData.cs"
 "Assets/Card/CardManager.cs"
+"Assets/Card/CardUI.cs"
 "Assets/Card/DeckManager.cs"
+"Assets/CardShop.cs"
+"Assets/Map.cs"
 "Assets/Stats/EntityStats.cs"
 "Assets/Stats/MonsterStats.cs"
 "Assets/Stats/PlayerStats.cs"
