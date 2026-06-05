@@ -1,127 +1,96 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems; // UI 이벤트 감지용 필수 라이브러리
 
-public class CardUI : MonoBehaviour
+public class CardUI : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    [Header("UI Components (TextMeshPro)")]
-    [SerializeField] private TextMeshPro costText;        
-    [SerializeField] private TextMeshPro nameText;        
-    [SerializeField] private TextMeshPro descriptionText; 
-    [SerializeField] private SpriteRenderer artworkImage; 
+    [Header("UI Component References")]
+    [SerializeField] private TextMeshProUGUI cardNameText;    // 카드 이름 텍스트
+    [SerializeField] private TextMeshProUGUI costText;        // 마나 코스트 텍스트
+    [SerializeField] private TextMeshProUGUI descriptionText; // 카드 설명 텍스트
+    [SerializeField] private Image cardIllustration;          // 카드 일러스트 이미지
 
     [Header("Card Visual Sub-Objects")]
-    [SerializeField] private GameObject cardFrontObject;      
-    [SerializeField] private GameObject cardBackObject;       
+    [SerializeField] private GameObject cardFrontObject;      // 카드 앞면 오브젝트
+    [SerializeField] private GameObject cardBackObject;       // 카드 뒷면 오브젝트
 
-    [Header("Hover Animation Settings")]
-    [SerializeField] private float hoverYOffset = 1.5f;       
-    [SerializeField] private float hoverScale = 1.2f;         
+    [Header("Play Settings (사용 판정)")]
+    [SerializeField] private float playYThreshold = 150f;     // UI 픽셀 좌표 기준 사용 인식을 위한 Y축 높이
 
     private Vector3 originalPosition;
-    private Quaternion originalRotation;
-    private Vector3 originalScale;
-    private int originalSortingOrder;
+    private Quaternion originalRotation; // 기존 회전값을 저장할 변수
+    private RectTransform rectTransform;
+    private CanvasGroup canvasGroup;
 
-    private bool isHovered = false;
-    private bool isDragging = false; 
-
-    private Vector3 dragOffset;
-
-    // ★ 꼬임 해결: 존재하지 않는 스크립트 타입 대신 순수 데이터를 직접 바라보게 변경
-    [HideInInspector] public CardData runtimeData; 
+    [HideInInspector] public CardData runtimeData; //
     private CardManager cardManager;
-    private UnityEngine.Rendering.SortingGroup sortingGroup;
-    private Camera mainCamera;
 
     void Awake()
     {
-        sortingGroup = GetComponent<UnityEngine.Rendering.SortingGroup>();
-        mainCamera = Camera.main;
+        rectTransform = GetComponent<RectTransform>();
+
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
+        cardManager = FindFirstObjectByType<CardManager>();
     }
 
-    // ★ CardManager가 호출하는 함수명을 완전히 일치하도록 정돈
-    public void RefreshUI(CardData data, CardManager manager)
+    // ★ [복구] CardManager가 카드를 생성한 직후 데이터를 UI 컴포넌트에 바인딩하는 함수
+    public void SetCardData(CardData data)
     {
-        this.cardManager = manager;
-        this.runtimeData = data; // 데이터 캐싱
+        if (data == null) return;
+        runtimeData = data;
 
-        if (nameText != null) nameText.text = data.cardName;
+        // 1. 이름 반영
+        if (cardNameText != null) cardNameText.text = data.cardName;
+
+        // 2. 코스트 반영
         if (costText != null) costText.text = data.cost.ToString();
+
+        // 3. 동적 설명문 반영 (CardData에 정의된 GetDynamicDescription 활용)
         if (descriptionText != null) descriptionText.text = data.GetDynamicDescription();
-        if (artworkImage != null && data.cardGraphic != null) artworkImage.sprite = data.cardGraphic;
-        
-        SetCardFace(true);
+
+        // 4. 카드 일러스트 이미지 반영
+        if (cardIllustration != null && data.cardGraphic != null)
+        {
+            cardIllustration.sprite = data.cardGraphic;
+        }
+
+        // 기본적으로 앞면을 보여줍니다.
+        ShowFront(true);
     }
 
-    public void SetCardFace(bool isFront)
+    // ★ 앞뒷면 활성화/비활성화 제어 함수
+    public void ShowFront(bool isFront)
     {
         if (cardFrontObject != null) cardFrontObject.SetActive(isFront);
         if (cardBackObject != null) cardBackObject.SetActive(!isFront);
     }
 
-    private void OnMouseEnter()
+    // 드래그 전 위치와 회전값 저장
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if (isHovered || isDragging) return;
-        isHovered = true;
+        originalPosition = rectTransform.position;
+        originalRotation = rectTransform.localRotation; // 정렬되었던 회전값 기억
 
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
-        originalScale = transform.localScale;
-        if (sortingGroup != null) originalSortingOrder = sortingGroup.sortingOrder;
+        canvasGroup.blocksRaycasts = false;
+        rectTransform.SetAsLastSibling(); // 드래그하는 카드를 맨 앞으로 배치
 
-        Vector3 targetPos = originalPosition + new Vector3(0f, hoverYOffset, 0f);
-        transform.position = targetPos;
-        transform.rotation = Quaternion.identity;
-        transform.localScale = originalScale * hoverScale;
-
-        if (sortingGroup != null) sortingGroup.sortingOrder = 100;
+        rectTransform.localRotation = Quaternion.identity; // 드래그 중에는 똑바로 세움
     }
 
-    private void OnMouseExit()
+    public void OnDrag(PointerEventData eventData)
     {
-        if (!isHovered || isDragging) return;
-        isHovered = false;
-
-        RestoreOriginalState();
+        rectTransform.position = eventData.position; // 마우스 커서 추적
     }
 
-    private void RestoreOriginalState()
+    public void OnPointerUp(PointerEventData eventData)
     {
-        transform.position = originalPosition;
-        transform.rotation = originalRotation;
-        transform.localScale = originalScale;
+        canvasGroup.blocksRaycasts = true;
 
-        if (sortingGroup != null) sortingGroup.sortingOrder = originalSortingOrder;
-    }
-
-    private void OnMouseDown()
-    {
-        isDragging = true;
-
-        Vector3 mouseWorldPos = GetMouseWorldPosition();
-        dragOffset = transform.position - mouseWorldPos;
-        dragOffset.z = 0f;
-
-        if (sortingGroup != null) sortingGroup.sortingOrder = 200;
-    }
-
-    private void OnMouseDrag()
-    {
-        Vector3 currentMousePos = GetMouseWorldPosition();
-        transform.position = currentMousePos + dragOffset;
-    }
-
-    [Header("Play Settings (사용 판정)")]
-    [SerializeField] private float playYThreshold = -1.0f; 
-
-    private void OnMouseUp()
-    {
-        isDragging = false;
-        isHovered = false;
-
-        if (transform.position.y > playYThreshold)
+        if (rectTransform.anchoredPosition.y > playYThreshold)
         {
-            // 수정된 runtimeData 마킹 구조에서 코스트 추출
             int cardCost = runtimeData != null ? runtimeData.cost : 0;
 
             if (BattleManager.Instance != null && BattleManager.Instance.CanUseCard(cardCost))
@@ -129,7 +98,7 @@ public class CardUI : MonoBehaviour
                 if (cardManager != null)
                 {
                     cardManager.UseCard(gameObject);
-                    return; 
+                    return;
                 }
             }
             else
@@ -138,13 +107,8 @@ public class CardUI : MonoBehaviour
             }
         }
 
-        RestoreOriginalState();
-    }
-
-    private Vector3 GetMouseWorldPosition()
-    {
-        Vector3 mouseScreenPos = Input.mousePosition;
-        mouseScreenPos.z = Mathf.Abs(mainCamera.transform.position.z);
-        return mainCamera.ScreenToWorldPoint(mouseScreenPos);
+        // 사용 실패 시 원래 정렬되었던 자리와 각도로 원상복구
+        rectTransform.position = originalPosition;
+        rectTransform.localRotation = originalRotation;
     }
 }

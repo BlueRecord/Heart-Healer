@@ -24,6 +24,16 @@ public class PlayerStats : EntityStats
         }
     }
 
+    // PlayerStats 스크립트 내부에 이 함수를 새로 하나 선언해 주세요.
+    public void ResetArmorAtTurnEnd()
+    {
+        // 현재 방어도를 저장하는 변수명(예: currentArmor 등)에 맞춰 0을 대입합니다.
+        armor = 0;
+
+        // 방어도 UI를 새로고침하는 코드가 내부에 있다면 여기서 함께 호출해 줍니다.
+        // 예: UpdateArmorUI();
+    }
+
     protected override void Die()
     {
         base.Die();
