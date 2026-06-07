@@ -813,7 +813,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5.399994, y: 0}
+  m_AnchoredPosition: {x: -5.3999634, y: 0}
   m_SizeDelta: {x: -20, y: 0.0000038147}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &331448046
@@ -925,8 +925,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -53, y: -133}
-  m_SizeDelta: {x: -14.5278015, y: -36.56781}
+  m_AnchoredPosition: {x: -247.95761, y: -114.63703}
+  m_SizeDelta: {x: -413.06726, y: -89.105934}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &350151655
 MonoBehaviour:
@@ -2815,8 +2815,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -856.47327, y: 56.27}
-  m_SizeDelta: {x: 710.6188, y: 112.5408}
+  m_AnchoredPosition: {x: -180.50507, y: 56.27}
+  m_SizeDelta: {x: 381.0677, y: 112.5408}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1012667764
 MonoBehaviour:
@@ -3029,8 +3029,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -46.55182, y: 18.391983}
-  m_SizeDelta: {x: 292.4722, y: 76.43219}
+  m_AnchoredPosition: {x: 49, y: 44.299}
+  m_SizeDelta: {x: 491.399, y: 157.5112}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1094811353
 MonoBehaviour:
@@ -3724,6 +3724,8 @@ RectTransform:
   m_Children:
   - {fileID: 1798272537}
   - {fileID: 1173959364}
+  - {fileID: 2034716418}
+  - {fileID: 1741284313}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3765,8 +3767,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 800.36, y: -230.46}
-  m_SizeDelta: {x: -428.501, y: -375.23}
+  m_AnchoredPosition: {x: 198.21442, y: -230.45999}
+  m_SizeDelta: {x: -766.6592, y: -375.23}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1313839274
 MonoBehaviour:
@@ -3878,7 +3880,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1336937280}
   - component: {fileID: 1336937281}
-  - component: {fileID: 1336937282}
   m_Layer: 5
   m_Name: MonsterUI
   m_TagString: Untagged
@@ -3922,7 +3923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361ccd984b7f2c4489c46dc5b43502cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatUIController
-  targetStats: {fileID: 1336937282}
+  targetStats: {fileID: 0}
   hpSlider: {fileID: 1836927974}
   hpText: {fileID: 1012667764}
   armorGroupObject: {fileID: 1672533412}
@@ -3930,24 +3931,6 @@ MonoBehaviour:
   armorText: {fileID: 1609693124}
   attackIconGroup: {fileID: 958560400}
   attackText: {fileID: 370502356}
---- !u!114 &1336937282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1336937279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 900c17253d6bd1c49acef6c147859bea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MonsterStats
-  hp: 0
-  maxHp: 50
-  armor: 0
-  maxArmor: 0
-  baseAttack: 0
-  uiController: {fileID: 1336937281}
 --- !u!1 &1368842932
 GameObject:
   m_ObjectHideFlags: 0
@@ -4095,7 +4078,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1410575402}
   - component: {fileID: 1410575403}
-  - component: {fileID: 1410575404}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -4139,7 +4121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361ccd984b7f2c4489c46dc5b43502cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatUIController
-  targetStats: {fileID: 1410575404}
+  targetStats: {fileID: 0}
   hpSlider: {fileID: 2023725414}
   hpText: {fileID: 1313839274}
   armorGroupObject: {fileID: 1434493379}
@@ -4147,24 +4129,6 @@ MonoBehaviour:
   armorText: {fileID: 1667957187}
   attackIconGroup: {fileID: 872966668}
   attackText: {fileID: 631010796}
---- !u!114 &1410575404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410575401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07f84076b2fb14245a00da9928460b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  hp: 0
-  maxHp: 50
-  armor: 0
-  maxArmor: 0
-  baseAttack: 0
-  uiController: {fileID: 1410575403}
 --- !u!1 &1430736163
 GameObject:
   m_ObjectHideFlags: 0
@@ -5392,6 +5356,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1709739739}
   m_CullTransparentMesh: 1
+--- !u!1 &1741284312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1741284313}
+  m_Layer: 5
+  m_Name: MonsterSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1741284313
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741284312}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1298513226}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -708, y: -43}
+  m_SizeDelta: {x: 273.1443, y: 477.42}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1798272533
 GameObject:
   m_ObjectHideFlags: 0
@@ -5511,8 +5510,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 81.542404, y: 65.3584}
-  m_SizeDelta: {x: 1039.1814, y: 172.0348}
+  m_AnchoredPosition: {x: 322.5037, y: 65.3584}
+  m_SizeDelta: {x: 557.2588, y: 172.0348}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1836927974
 MonoBehaviour:
@@ -5917,8 +5916,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -182.47989, y: -222.58495}
-  m_SizeDelta: {x: -282.112, y: -359.48}
+  m_AnchoredPosition: {x: -381.5752, y: -222.58493}
+  m_SizeDelta: {x: -680.3024, y: -359.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2023725414
 MonoBehaviour:
@@ -5971,6 +5970,41 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &2034716417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2034716418}
+  m_Layer: 5
+  m_Name: PlayerSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2034716418
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034716417}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1298513226}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 630, y: -43}
+  m_SizeDelta: {x: 255.6353, y: 477.4154}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2050695386
 GameObject:
   m_ObjectHideFlags: 0
@@ -6010,6 +6044,11 @@ MonoBehaviour:
   manaInactiveSprite: {fileID: 2784468965456250579, guid: 9b6a24f79edf42c41aeacfa1dadfe43c, type: 3}
   turnCountText: {fileID: 1466857109}
   turnEndButton: {fileID: 430560556}
+  playerPrefab: {fileID: 8402116331745618342, guid: 0e05073c3127cd34a9ac98bae1a8d546, type: 3}
+  monsterPrefab: {fileID: 1313098318353350068, guid: eb482ed8f4bf8c448b62421347eb4cfe, type: 3}
+  playerSpawnPoint: {fileID: 2034716418}
+  monsterSpawnPoint: {fileID: 1741284313}
+  stageMonsterData: {fileID: 11400000, guid: 8b32840f1db183141aa80980b3999c74, type: 2}
 --- !u!4 &2050695388
 Transform:
   m_ObjectHideFlags: 0

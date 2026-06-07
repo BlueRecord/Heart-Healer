@@ -104,6 +104,14 @@ public class EntityStats : MonoBehaviour
         // 자식 클래스에서 오버라이드하여 턴 정산 기믹 처리
     }
 
+    // MonsterStats.cs 내부에 추가
+    public void ResetArmorHardcoded()
+    {
+        this.armor = 0; // 부모의 armor 변수에 직접 0을 대입
+        RefreshUI();    // 변경된 0 수치를 UI에 즉시 반영
+        Debug.Log($"<color=gray>[턴 정산] {gameObject.name}의 방어도가 0으로 초기화되었습니다.</color>");
+    }
+
     protected virtual void Die()
     {
         Debug.Log($"<color=black><b>[사망] {gameObject.name}이 탈진했습니다.</b></color>");

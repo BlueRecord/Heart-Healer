@@ -5,7 +5,7 @@ using TMPro;
 public class CombatUIController : MonoBehaviour
 {
     [Header("Target Stats Pointer")]
-    [SerializeField] private EntityStats targetStats;
+    [SerializeField] public EntityStats targetStats;
 
     [Header("HP UI Elements")]
     [SerializeField] private Slider hpSlider;

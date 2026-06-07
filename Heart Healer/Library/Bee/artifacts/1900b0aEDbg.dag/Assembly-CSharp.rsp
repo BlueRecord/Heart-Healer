@@ -480,6 +480,7 @@
 "Assets/BattleScene/Card/CardManager.cs"
 "Assets/BattleScene/Card/CardUI.cs"
 "Assets/BattleScene/Card/CardUIPopVer.cs"
+"Assets/BattleScene/Monster/MonsterData.cs"
 "Assets/BattleScene/Stats/EntityStats.cs"
 "Assets/BattleScene/Stats/MonsterStats.cs"
 "Assets/BattleScene/Stats/PlayerStats.cs"

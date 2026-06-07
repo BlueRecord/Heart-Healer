@@ -1,13 +1,40 @@
 using UnityEngine;
+using UnityEngine.UI; // UI Image 컴포넌트를 사용하기 위해 추가
 
 public class PlayerStats : EntityStats
 {
+    [Header("Player Graphic UI Port")]
+    [SerializeField] private Image playerGraphicImage; // 씬에 있는 플레이어 이미지 컴포넌트 포트
+
+    [Header("Player Sprite Resources")]
+    [SerializeField] private Sprite normalSprite;      // 전투 중 (기본) 이미지 포트
+    [SerializeField] private Sprite defeatedSprite;    // 전투 패배 (탈진) 이미지 포트
+
     void Start()
     {
-        InitStats();
+        // 프리팹 동적 소환 시 플레이어 UI를 자동으로 찾아 연결합니다.
+        if (uiController == null)
+        {
+            GameObject playerUIObj = GameObject.Find("PlayerUI");
+            if (playerUIObj != null)
+            {
+                uiController = playerUIObj.GetComponent<CombatUIController>();
+            }
+            else
+            {
+                uiController = FindFirstObjectByType<CombatUIController>();
+            }
+        }
+
+        // 게임 시작 시 초기 이미지셋을 '전투 중(기본)' 이미지로 강제 고정합니다.
+        if (playerGraphicImage != null && normalSprite != null)
+        {
+            playerGraphicImage.sprite = normalSprite;
+        }
+
+        InitStats(); // 부모(EntityStats)의 스탯 및 UI 초기화
     }
 
-    // BattleManager가 플레이어 턴을 닫을 때 자동으로 실행시켜 줍니다.
     public override void OnTurnEndProcess()
     {
         base.OnTurnEndProcess();
@@ -24,19 +51,23 @@ public class PlayerStats : EntityStats
         }
     }
 
-    // PlayerStats 스크립트 내부에 이 함수를 새로 하나 선언해 주세요.
-    public void ResetArmorAtTurnEnd()
-    {
-        // 현재 방어도를 저장하는 변수명(예: currentArmor 등)에 맞춰 0을 대입합니다.
-        armor = 0;
-
-        // 방어도 UI를 새로고침하는 코드가 내부에 있다면 여기서 함께 호출해 줍니다.
-        // 예: UpdateArmorUI();
-    }
-
+    // 플레이어 패배(탈진) 상태로 전환될 때 호출되는 부모 오버라이드 함수
     protected override void Die()
     {
-        base.Die();
+        base.Die(); // 부모의 기본 탈진 로그 출력
         Debug.Log("<color=red><b>[게임 오버] 플레이어가 탈진 상태에 빠졌습니다!</b></color>");
+
+        // ★ [이미지 변경 포트 작동] 플레이어의 일러스트를 패배(탈진) 스프라이트로 전격 교체합니다!
+        if (playerGraphicImage != null && defeatedSprite != null)
+        {
+            playerGraphicImage.sprite = defeatedSprite;
+            Debug.Log("<color=red>[UI] 플레이어의 그래픽이 패배 일러스트로 교체되었습니다.</color>");
+        }
+
+        // 배틀 매니저에게 플레이어가 패배(Lost)했음을 실시간으로 알립니다.
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.HandlePlayerDefeat();
+        }
     }
 }
