@@ -21,9 +21,9 @@ public class CardManager : MonoBehaviour
     [SerializeField] private float rotateIntensity = 4.0f;
 
     [Header("Card Databases")]
-    public List<CardData> allCards;
-    public List<CardData> deck = new List<CardData>();
+    public List<CardData> allCards; // 필요시 전체 보관용 데이터베이스
 
+    // [기존의 public List<CardData> deck 선언을 안전하게 전투 내부 런타임 리스트들로 대체 분리합니다]
     [HideInInspector] public List<CardData> runtimeDeck = new List<CardData>();
     [HideInInspector] public List<CardData> hand = new List<CardData>();
     [HideInInspector] public List<CardData> grave = new List<CardData>();
@@ -51,16 +51,28 @@ public class CardManager : MonoBehaviour
         RefreshPileTexts();
     }
 
+    // [정비 핵심] 전투 세팅 시 DeckManager의 원본 목록을 긁어와서 무작위 셔플합니다.
     public void PrepareInitDeck()
     {
-        runtimeDeck.Clear(); hand.Clear(); grave.Clear();
-        if (deck != null && deck.Count > 0)
+        runtimeDeck.Clear();
+        hand.Clear();
+        grave.Clear();
+
+        // DeckManager 싱글톤이 정상 작동 중인지 체크한 뒤 복사본을 만듭니다.
+        if (DeckManager.Instance != null && DeckManager.Instance.PlayerDeck.Count > 0)
         {
-            for (int i = 0; i < deck.Count; i++)
+            foreach (CardData card in DeckManager.Instance.PlayerDeck)
             {
-                if (deck[i] != null) runtimeDeck.Add(deck[i]);
+                if (card != null) runtimeDeck.Add(card);
             }
+            Debug.Log($"[CardManager] DeckManager 원본으로부터 전투용 카드 {runtimeDeck.Count}장을 안전하게 가져왔습니다.");
         }
+        else
+        {
+            Debug.LogWarning("[CardManager] DeckManager가 없거나 소지한 카드가 비어있습니다! 하이어라키와 인스펙터를 점검하세요.");
+        }
+
+        // 가져온 전투용 덱 무작위로 완전히 섞기
         Shuffle(runtimeDeck);
         RefreshPileTexts();
     }
@@ -145,10 +157,13 @@ public class CardManager : MonoBehaviour
 
     public void Shuffle(List<CardData> list)
     {
+        // Fisher-Yates 정석 셔플 알고리즘 적용
         for (int i = list.Count - 1; i > 0; i--)
         {
             int rnd = Random.Range(0, i + 1);
-            CardData temp = list[i]; list[i] = list[rnd]; list[rnd] = temp;
+            CardData temp = list[i];
+            list[i] = list[rnd];
+            list[rnd] = temp;
         }
     }
 
@@ -180,13 +195,11 @@ public class CardManager : MonoBehaviour
             BattleManager.Instance.SpendMana(usedCardData.cost);
         }
 
-        // 이펙트 프로세서로 고유 효과 수행
         if (effectProcessor != null)
         {
             effectProcessor.ExecuteEffect(usedCardData, playerStats, monsterStats);
         }
 
-        // 기존 레거시 하드코딩 호환용 분기 보존
         if (usedCardData.cardName != null && (usedCardData.cardName.Contains("벌크업") || usedCardData.cardName.Contains("영양제")))
         {
             playerStats.AddAttack(2);

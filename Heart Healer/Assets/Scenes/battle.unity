@@ -3633,17 +3633,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d2f02a0ac8fd1864cb1d47a0969048e8, type: 2}
   - {fileID: 11400000, guid: 298fe99f3ae05d541bb4a4c2c7e3fe87, type: 2}
   - {fileID: 11400000, guid: b3569ed5972ee7e4aacb8968f810be40, type: 2}
-  deck:
-  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
-  - {fileID: 11400000, guid: dc31c030a33c46c44b87ae9419a5b1b0, type: 2}
-  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
-  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
-  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
-  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
-  - {fileID: 11400000, guid: 234d605285653404d9eed4ebc1dac403, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   runtimeDeck: []
   hand: []
   grave: []
@@ -5880,6 +5869,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1816845554}
   m_CullTransparentMesh: 1
+--- !u!1 &1825005464
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1825005466}
+  - component: {fileID: 1825005465}
+  m_Layer: 0
+  m_Name: DeckManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1825005465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825005464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35dbed031ba02f54799a465386b56f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeckManager
+  startingCards:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!4 &1825005466
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825005464}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 841.98944, y: 555.832, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1836927972
 GameObject:
   m_ObjectHideFlags: 0
@@ -6613,6 +6657,7 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1169440611}
+  - {fileID: 1825005466}
   - {fileID: 1271333172}
   - {fileID: 2050695388}
   - {fileID: 1298513226}

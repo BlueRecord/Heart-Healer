@@ -3,9 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
-// =================================================================
-// ★ [핵심 해결] 빠져있던 배틀 상태(BattleState) 열거형 정의 추가
-// =================================================================
+// 전투 상태를 관리하는 열거형
 public enum BattleState { PlayerTurn, EnemyTurn, Victory, Lost }
 
 public class BattleManager : MonoBehaviour
@@ -48,26 +46,24 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
     {
+        // 싱글톤 패턴 적용
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
 
     void Start()
     {
-        // 1. 프리팹 스폰 (인스펙터에 등록된 위치 기준으로 배치)
+        // 1. 플레이어 및 몬스터 프리팹 생성
         GameObject pObj = Instantiate(playerPrefab, playerSpawnPoint);
         GameObject mObj = Instantiate(monsterPrefab, monsterSpawnPoint);
 
-        // 2. 이름 정렬 (Find 기능을 안전하게 쓰기 위함)
         pObj.name = "Player";
         mObj.name = "Monster";
 
-        // ★ [핵심 수정] 생성된 몬스터에게 기획 데이터 주입하기
+        // 2. 몬스터 스탯 초기화
         MonsterStats monsterStats = mObj.GetComponent<MonsterStats>();
         if (monsterStats != null && stageMonsterData != null)
         {
-            // MonsterStats 내부에 데이터 초기화 함수(예: Setup 또는 Initialize)가 있다면 호출합니다.
-            // 만약 함수명이 다르면 프로젝트에 맞춰 수정하세요.
             monsterStats.SetupMonster(stageMonsterData);
             Debug.Log($"[BattleManager] {stageMonsterData.monsterName} 데이터 로드 완료!");
         }
@@ -76,14 +72,14 @@ public class BattleManager : MonoBehaviour
             Debug.LogError("[BattleManager] stageMonsterData가 비어있거나 MonsterStats 컴포넌트를 찾을 수 없습니다!");
         }
 
-        // 3. UI 및 카드 초기화
+        // 3. UI 컨트롤러 할당 및 버튼 리스너 추가
         allUIControllers = FindObjectsByType<CombatUIController>(FindObjectsSortMode.None);
-
         if (turnEndButton != null)
         {
             turnEndButton.onClick.AddListener(OnTurnEndButtonClicked);
         }
 
+        // 4. 덱 초기화 및 전투 시작
         CardManager cardManager = FindFirstObjectByType<CardManager>();
         if (cardManager != null) cardManager.PrepareInitDeck();
 
@@ -108,11 +104,13 @@ public class BattleManager : MonoBehaviour
         RefreshBattleUI();
     }
 
+    // 카드 사용 가능 여부 체크 (턴 및 마나 확인)
     public bool CanUseCard(int cost)
     {
         return currentState == BattleState.PlayerTurn && currentMana >= cost;
     }
 
+    // 마나 소비 처리
     public void SpendMana(int amount)
     {
         currentMana -= amount;
@@ -126,15 +124,17 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(PlayerEndTurnRoutine());
     }
 
+    // 플레이어 턴 종료 시 호출
     private IEnumerator PlayerEndTurnRoutine()
     {
         currentState = BattleState.EnemyTurn;
         if (turnEndButton != null) turnEndButton.interactable = false;
 
-        // 플레이어 턴 종료 시 버프/디버프 지속 턴 정산
+        // 플레이어 버프/디버프 정산
         PlayerStats pStats = FindFirstObjectByType<PlayerStats>();
         if (pStats != null) pStats.OnTurnEndProcess();
 
+        // 손패 카드 무덤으로 이동
         CardManager cardManager = FindFirstObjectByType<CardManager>();
         if (cardManager != null) cardManager.DiscardHand();
 
@@ -142,6 +142,7 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(EnemyTurnRoutine());
     }
 
+    // 몬스터 턴 로직
     private IEnumerator EnemyTurnRoutine()
     {
         yield return new WaitForSeconds(1.0f);
@@ -149,8 +150,8 @@ public class BattleManager : MonoBehaviour
 
         if (activeMonster != null)
         {
-            activeMonster.ResetArmorHardcoded(); // 몬스터 기존 방어도 리셋
-            activeMonster.ExecuteMonsterTurn();  // 패턴 실행
+            activeMonster.ResetArmorHardcoded();
+            activeMonster.ExecuteMonsterTurn();
         }
         else
         {
@@ -159,10 +160,10 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        // 몬스터 턴 종료 시 몬스터의 버프/디버프 지속 턴 감소 처리
+        // 몬스터 버프/디버프 정산
         if (activeMonster != null) activeMonster.OnTurnEndProcess();
 
-        // 몬스터의 공격으로 플레이어가 사망(Lost 상태)한 게 아니라면 다음 턴 진행
+        // 게임 오버가 아닐 경우 다음 플레이어 턴으로 진행
         if (currentState != BattleState.Lost)
         {
             StartNextPlayerTurn();
@@ -174,13 +175,12 @@ public class BattleManager : MonoBehaviour
         turnCount++;
         currentState = BattleState.PlayerTurn;
 
-        Debug.Log($"<color=green><b>[플레이어 턴 시작] 제 {turnCount}턴</b></color>");
-
+        // 플레이어 턴 시작 시 방어도 초기화 및 지속 효과 적용
         PlayerStats pStats = FindFirstObjectByType<PlayerStats>();
         if (pStats != null)
         {
-            pStats.ResetArmor();           // 플레이어 일회성 안정감 소멸
-            pStats.ProcessStartTurnRegen(); // 지속 버프가 있다면 턴 시작 시 방어도 생성
+            pStats.ResetArmor();
+            pStats.ProcessStartTurnRegen();
         }
 
         ResetMana();
@@ -188,25 +188,23 @@ public class BattleManager : MonoBehaviour
         CardManager cardManager = FindFirstObjectByType<CardManager>();
         if (cardManager != null)
         {
-            cardManager.DrawCard(); // 카드 드로우 (추가 예약 드로우 자동 합산)
+            cardManager.DrawCard();
         }
 
         if (turnEndButton != null) turnEndButton.interactable = true;
         RefreshBattleUI();
     }
 
-    // 플레이어 탈진(패배) 처리 함수
+    // 패배 시 호출 함수
     public void HandlePlayerDefeat()
     {
-        if (currentState == BattleState.Lost) return; // 중복 실행 방지
+        if (currentState == BattleState.Lost) return;
 
         currentState = BattleState.Lost;
-        Debug.Log("<color=red><b>[배틀 매니저] 플레이어 탈진 상태 확인. 게임 오버를 선언합니다.</b></color>");
 
-        // 턴 종료 버튼 잠금
+        // 버튼 잠금 및 카드 입력 차단
         if (turnEndButton != null) turnEndButton.interactable = false;
 
-        // 플레이어가 카드를 더 이상 건드리지 못하게 상호작용 차단
         CardManager cardManager = FindFirstObjectByType<CardManager>();
         if (cardManager != null)
         {
@@ -214,6 +212,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    // UI 동기화
     public void RefreshBattleUI()
     {
         if (manaText != null)
@@ -231,6 +230,7 @@ public class BattleManager : MonoBehaviour
             turnCountText.text = turnCount.ToString();
         }
 
+        // 등록된 모든 UI 컨트롤러 갱신
         if (allUIControllers == null) return;
         foreach (var ui in allUIControllers)
         {

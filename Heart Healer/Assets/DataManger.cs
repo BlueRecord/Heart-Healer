@@ -37,6 +37,15 @@ public class DataManger : MonoBehaviour
     {
        
     }
+    // DataManger.cs 파일 내 상단의 PlayerData 클래스를 다음과 같이 확장합니다.
+    [System.Serializable]
+    public class PlayerData
+    {
+        public string name;
+
+        // [정비 포인트] 플레이어가 들고 있는 카드들의 ID 목록을 저장할 리스트 추가
+        public List<string> ownedCardIDs = new List<string>();
+    }
 
     public void SaveData()
     {

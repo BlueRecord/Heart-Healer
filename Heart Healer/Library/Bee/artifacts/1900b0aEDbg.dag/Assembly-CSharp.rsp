@@ -485,9 +485,10 @@
 "Assets/BattleScene/Stats/EntityStats.cs"
 "Assets/BattleScene/Stats/MonsterStats.cs"
 "Assets/BattleScene/Stats/PlayerStats.cs"
-"Assets/CardShop.cs"
 "Assets/DataManger.cs"
-"Assets/Map.cs"
+"Assets/Deck/DeckManager.cs"
+"Assets/MapController.cs"
+"Assets/MapManager.cs"
 -langversion:9.0
 /deterministic
 /optimize-
