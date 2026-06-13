@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 4173051236304713222}
   - component: {fileID: 247280583012739365}
   m_Layer: 0
-  m_Name: MonsterBase 1
+  m_Name: MonsterPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,9 +170,9 @@ RectTransform:
   - {fileID: 4477869636733917961}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -465, y: 327.03}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -144.54, y: 0}
   m_SizeDelta: {x: 289.08777, y: 454.0672}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &247280583012739365
@@ -192,6 +192,9 @@ MonoBehaviour:
   armor: 0
   maxArmor: 0
   baseAttack: 0
+  vulnerableTurns: 0
+  nextTurnBonusDraw: 0
+  permanentArmorRegen: 0
   uiController: {fileID: 0}
   currentMonsterData: {fileID: 0}
   monsterGraphicImage: {fileID: 5108845591734956168}

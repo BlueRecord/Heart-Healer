@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3edb6f7332e4ff54b8c2f5edbd200780, type: 3}
+  m_Name: BasicPersuasion
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardID: BasicPersuasion
+  cardName: "\uAE30\uBCF8 \uC124\uB4DD"
+  cost: 1
+  cardArt: {fileID: 0}
+  damage: 6
+  puredamage: 0
+  armor: 0
+  vulnerableTurns: 0
+  drawCount: 0
+  baseDescription: "\uC7A5\uBCBD\uC744 [dmg]\uB9CC\uD07C \uC81C\uAC70\uD569\uB2C8\uB2E4."

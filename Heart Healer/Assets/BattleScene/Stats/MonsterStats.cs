@@ -18,22 +18,26 @@ public class MonsterStats : EntityStats // 부모의 스탯 필드 및 InitStats 상속
 
     void Start()
     {
-        // 1. 씬에 배치된 CombatUIController를 코드 내부에서 자동으로 찾아서 내 부모 변수에 주입
+        // 1. 씬에 배치된 MonsterUI를 명확하게 이름으로 찾아 UI 컨트롤러를 맵핑합니다.
         if (uiController == null)
         {
-            uiController = FindFirstObjectByType<CombatUIController>();
+            GameObject monsterUIObj = GameObject.Find("MonsterUI");
+            if (monsterUIObj != null)
+            {
+                uiController = monsterUIObj.GetComponent<CombatUIController>();
+            }
+            else
+            {
+                uiController = FindFirstObjectByType<CombatUIController>();
+            }
         }
 
-        // ★ [핵심 추가]: 찾은 UI 컨트롤러에게 "내가 네 타겟이야"라고 역주입해 줍니다.
+        // ★ 찾은 UI 컨트롤러에게 내가 타겟임을 명확히 역주입
         if (uiController != null)
         {
-            // CombatUIController에 정의된 Target Stats 변수에 나(this)를 직접 꽂아줍니다.
-            // ※ 만약 CombatUIController 내부의 변수명이 targetStats가 아니라 다른 이름(예: targetMonster 등)이라면 
-            // 변수 오류가 날 수 있으므로, CombatUIController의 해당 변수명으로 변경해 주세요!
             uiController.targetStats = this;
         }
 
-        // 이제 uiController 세팅과 타겟 주입이 끝났으므로 데이터를 안전하게 세팅합니다.
         if (currentMonsterData != null)
         {
             SetupMonster(currentMonsterData);
@@ -42,27 +46,25 @@ public class MonsterStats : EntityStats // 부모의 스탯 필드 및 InitStats 상속
 
     public void SetupMonster(MonsterData data)
     {
-        if (data == null) return;
-
         currentMonsterData = data;
-        gameObject.name = data.monsterName;
 
-        this.maxHp = data.hpValue;
-        this.baseAttack = data.attackValue;
-        this.patternIndex = 0;
+        // ★ [핵심 추가] 소환된 복사본의 오브젝트 이름을 "지쳐 보이는 고등학생" 같은 기획 이름으로 교체합니다.
+        if (data != null && !string.IsNullOrEmpty(data.monsterName))
+        {
+            gameObject.name = data.monsterName;
+        }
 
-        InitStats(); // 부모 초기화 (체력을 maxHp로 채움)
+        maxHp = data.hpValue;
+        hp = maxHp;
+        baseAttack = data.attackValue;
 
         if (monsterGraphicImage != null && data.monsterGraphic != null)
         {
             monsterGraphicImage.sprite = data.monsterGraphic;
         }
 
-        UpdateNextIntent(); // 의도 텍스트 갱신
-
-        // ★ [여기에 이 코드 한 줄을 추가해 주세요!]
-        // 데이터 세팅이 완전히 끝난 시점에 UI를 강제로 새로고침 시킵니다.
-        // (부모인 EntityStats가 uiController를 가지고 있으므로 바로 접근 가능합니다)
+        patternIndex = 0;
+        UpdateNextIntent();
         RefreshUI();
     }
 

@@ -1,55 +1,57 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; // UI 시스템 명시
 using TMPro;
 
 public class CardUIPopVer : MonoBehaviour
 {
     [Header("UI Component References")]
-    [SerializeField] private TextMeshProUGUI cardNameText;    // 카드 이름
-    [SerializeField] private TextMeshProUGUI costText;        // 마나 코스트
-    [SerializeField] private TextMeshProUGUI descriptionText; // 카드 설명
-    [SerializeField] private Image cardIllustration;          // UI Image 컴포넌트
-    [SerializeField] private Image cardBackground;            // 카드 배경 UI Image
+    [SerializeField] private TextMeshProUGUI cardNameText;
+    [SerializeField] private TextMeshProUGUI costText;
+    [SerializeField] private TextMeshProUGUI descriptionText;
+
+    // 모호성 차단을 위해 UnityEngine.UI 타입을 명확히 지정합니다.
+    [SerializeField] private UnityEngine.UI.Image cardIllustration;
+    [SerializeField] private UnityEngine.UI.Image cardBackground;
 
     public void RefreshUI(CardData data)
     {
         if (data == null) return;
 
-        // 1. 이름 반영
+        // 1. 이름 및 코스트 반영
         if (cardNameText != null) cardNameText.text = data.cardName;
 
-        // 2. 코스트 반영
+        // [CS0103 해결] missing 변수였던 costText를 정상 참조하도록 수정합니다.
         if (costText != null) costText.text = data.cost.ToString();
 
-        // 3. 설명문 자동 조립
+        // 2. 설명문 조립 (팝업창은 플레이어의 버프 상태와 관계없이 항상 기본 고유값만 출력)
         if (descriptionText != null)
         {
             string desc = "";
-            if (data.damage > 0) desc += $"공격력 {data.damage} 부여.\n";
-            if (data.puredamage > 0) desc += $"관통 피해 {data.puredamage} 부여.\n";
-            if (data.armorAmount > 0) desc += $"방어도 {data.armorAmount} 획득.\n";
 
-            if (!string.IsNullOrEmpty(data.cardName) && (data.cardName.Contains("벌크업") || data.cardName.Contains("영양제")))
+            if (!string.IsNullOrEmpty(data.baseDescription))
             {
-                desc += "공격력 +2 영구 증가.";
+                // 버프값 0, 취약 유무 false를 강제 전달하여 깡스탯만 보여줍니다.
+                desc = data.GetDynamicDescription(0, false);
             }
+            else
+            {
+                if (data.damage > 0) desc += $"공격력 {data.damage} 부여.\n";
+                if (data.puredamage > 0) desc += $"관통 피해 {data.puredamage} 부여.\n";
+                if (data.armor > 0) desc += $"방어도 {data.armor} 획득.\n";
+
+                if (!string.IsNullOrEmpty(data.cardName) && (data.cardName.Contains("벌크업") || data.cardName.Contains("영양제")))
+                {
+                    desc += "공격력 +2 영구 증가.";
+                }
+            }
+
             descriptionText.text = desc;
         }
 
-        // 4. [★ 에러 해결 핵심] CardData 내부의 실제 이미지 변수명 찾기
-        if (cardIllustration != null)
+        // 3. 이미지 바인딩
+        if (cardIllustration != null && data.cardArt != null)
         {
-            // 방법 A: 만약 CardData 내부 이미지 변수명이 'sprite'일 경우
-            // cardIllustration.sprite = data.sprite; 
-
-            // 방법 B: 만약 CardData 내부 이미지 변수명이 'cardSprite'일 경우
-            // cardIllustration.sprite = data.cardSprite;
-
-            // -------------------------------------------------------------
-            // ※ 우선 에러를 완전히 지우기 위해 아래처럼 주석 처리를 하거나, 
-            // 원래 쓰고 계신 CardData의 이미지 변수명을 알아내어 대입해 주세요!
-            // -------------------------------------------------------------
-            Debug.Log("[안내] CardData의 이미지 변수명을 확인하여 매핑해 주세요.");
+            cardIllustration.sprite = data.cardArt;
         }
     }
 }

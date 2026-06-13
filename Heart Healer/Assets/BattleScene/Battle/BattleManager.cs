@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
+// =================================================================
+// ★ [핵심 해결] 빠져있던 배틀 상태(BattleState) 열거형 정의 추가
+// =================================================================
 public enum BattleState { PlayerTurn, EnemyTurn, Victory, Lost }
 
 public class BattleManager : MonoBehaviour
@@ -32,17 +35,14 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI turnCountText;
     [SerializeField] private Button turnEndButton;
 
-    // ==========================================
-    // ★ [원하셨던 핵심] 프리팹 및 소환 위치 등록 포트 개설
-    // ==========================================
     [Header("Dynamic Spawn Prefab Ports")]
-    [SerializeField] private GameObject playerPrefab; // 여기에 플레이어 프리팹 연결
-    [SerializeField] private GameObject monsterPrefab; // 여기에 몬스터 프리팹 연결
-    [SerializeField] private Transform playerSpawnPoint; // 소환될 위치 1
-    [SerializeField] private Transform monsterSpawnPoint; // 소환될 위치 2
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject monsterPrefab;
+    [SerializeField] private Transform playerSpawnPoint;
+    [SerializeField] private Transform monsterSpawnPoint;
 
     [Header("Monster Data Configuration")]
-    [SerializeField] private MonsterData stageMonsterData; // 몬스터 데이터를 담을 새로운 포트
+    [SerializeField] private MonsterData stageMonsterData;
 
     private CombatUIController[] allUIControllers;
 
@@ -54,21 +54,29 @@ public class BattleManager : MonoBehaviour
 
     void Start()
     {
-        // 1. 프리팹 생성 (수동 배치 삭제 후 사용)
-        Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
-        GameObject mObj = Instantiate(monsterPrefab, monsterSpawnPoint.position, Quaternion.identity);
+        // 1. 프리팹 스폰 (인스펙터에 등록된 위치 기준으로 배치)
+        GameObject pObj = Instantiate(playerPrefab, playerSpawnPoint);
+        GameObject mObj = Instantiate(monsterPrefab, monsterSpawnPoint);
 
-        // 2. 소환된 몬스터에게 데이터 주입
-        MonsterStats mStats = mObj.GetComponent<MonsterStats>();
-        if (mStats != null && stageMonsterData != null)
+        // 2. 이름 정렬 (Find 기능을 안전하게 쓰기 위함)
+        pObj.name = "Player";
+        mObj.name = "Monster";
+
+        // ★ [핵심 수정] 생성된 몬스터에게 기획 데이터 주입하기
+        MonsterStats monsterStats = mObj.GetComponent<MonsterStats>();
+        if (monsterStats != null && stageMonsterData != null)
         {
-            mStats.SetupMonster(stageMonsterData); // 여기서 데이터가 연결됩니다!
+            // MonsterStats 내부에 데이터 초기화 함수(예: Setup 또는 Initialize)가 있다면 호출합니다.
+            // 만약 함수명이 다르면 프로젝트에 맞춰 수정하세요.
+            monsterStats.SetupMonster(stageMonsterData);
+            Debug.Log($"[BattleManager] {stageMonsterData.monsterName} 데이터 로드 완료!");
+        }
+        else
+        {
+            Debug.LogError("[BattleManager] stageMonsterData가 비어있거나 MonsterStats 컴포넌트를 찾을 수 없습니다!");
         }
 
-        // 1. 배틀 시작 전, 포트에 등록된 프리팹들을 지정 위치에 실시간 소환합니다.
-        SpawnEntities();
-
-        // 2. 캐릭터들이 소환 완료된 직후 씬에 생성된 UI 컨트롤러들을 안전하게 수집합니다.
+        // 3. UI 및 카드 초기화
         allUIControllers = FindObjectsByType<CombatUIController>(FindObjectsSortMode.None);
 
         if (turnEndButton != null)
@@ -77,56 +85,21 @@ public class BattleManager : MonoBehaviour
         }
 
         CardManager cardManager = FindFirstObjectByType<CardManager>();
-        if (cardManager != null)
-        {
-            cardManager.PrepareInitDeck();
-        }
+        if (cardManager != null) cardManager.PrepareInitDeck();
 
         StartBattle();
-    }
-
-    // ★ 프리팹 소환 전담 함수 생성
-    private void SpawnEntities()
-    {
-        // 플레이어 프리팹 동적 소환
-        if (playerPrefab != null && playerSpawnPoint != null)
-        {
-            GameObject spawnedPlayer = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
-            spawnedPlayer.name = "Player"; // 복사본 생성 시 뒤에 (Clone) 붙는 현상 깔끔하게 정리
-        }
-        else
-        {
-            Debug.LogWarning("[BattleManager] 플레이어 프리팹이나 스폰 포인트가 인스펙터 포트에 등록되지 않았습니다!");
-        }
-
-        // 몬스터 프리팹 동적 소환
-        if (monsterPrefab != null && monsterSpawnPoint != null)
-        {
-            GameObject spawnedMonster = Instantiate(monsterPrefab, monsterSpawnPoint.position, Quaternion.identity);
-            spawnedMonster.name = "Monster";
-        }
-        else
-        {
-            Debug.LogWarning("[BattleManager] 몬스터 프리팹이나 스폰 포인트가 인스펙터 포트에 등록되지 않았습니다!");
-        }
     }
 
     public void StartBattle()
     {
         currentState = BattleState.PlayerTurn;
         turnCount = 1;
-
         ResetMana();
 
         CardManager cardManager = FindFirstObjectByType<CardManager>();
-        if (cardManager != null)
-        {
-            cardManager.DrawCard();
-        }
+        if (cardManager != null) cardManager.DrawCard();
 
         RefreshBattleUI();
-
-        Debug.Log($"<color=green><b>[전투 시작] 제 {turnCount}턴 - 플레이어 차례</b></color>");
     }
 
     public void ResetMana()
@@ -144,8 +117,6 @@ public class BattleManager : MonoBehaviour
     {
         currentMana -= amount;
         if (currentMana < 0) currentMana = 0;
-        Debug.Log($"[마나 사용] 남은 마나: {currentMana}/{maxMana}");
-
         RefreshBattleUI();
     }
 
@@ -155,28 +126,17 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(PlayerEndTurnRoutine());
     }
 
-    public void HandlePlayerDefeat()
-    {
-        if (currentState == BattleState.Lost) return;
-
-        currentState = BattleState.Lost;
-        Debug.Log("<color=black><b>[배틀 결과] 플레이어 패배... 전투가 종료됩니다.</b></color>");
-
-        if (turnEndButton != null) turnEndButton.interactable = false;
-    }
-
     private IEnumerator PlayerEndTurnRoutine()
     {
-        Debug.Log("<color=yellow>[플레이어 턴 종료]</color>");
         currentState = BattleState.EnemyTurn;
-
         if (turnEndButton != null) turnEndButton.interactable = false;
 
+        // 플레이어 턴 종료 시 버프/디버프 지속 턴 정산
+        PlayerStats pStats = FindFirstObjectByType<PlayerStats>();
+        if (pStats != null) pStats.OnTurnEndProcess();
+
         CardManager cardManager = FindFirstObjectByType<CardManager>();
-        if (cardManager != null)
-        {
-            cardManager.DiscardHand();
-        }
+        if (cardManager != null) cardManager.DiscardHand();
 
         yield return new WaitForSeconds(0.5f);
         StartCoroutine(EnemyTurnRoutine());
@@ -184,17 +144,13 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator EnemyTurnRoutine()
     {
-        Debug.Log("<color=red><b>[몬스터 턴 시작]</b></color>");
         yield return new WaitForSeconds(1.0f);
-
         MonsterStats activeMonster = FindFirstObjectByType<MonsterStats>();
 
         if (activeMonster != null)
         {
-            activeMonster.ResetArmorHardcoded();
-
-            Debug.Log($"<color=red>[몬스터 행동] {activeMonster.gameObject.name}의 행동을 개시합니다.</color>");
-            activeMonster.ExecuteMonsterTurn();
+            activeMonster.ResetArmorHardcoded(); // 몬스터 기존 방어도 리셋
+            activeMonster.ExecuteMonsterTurn();  // 패턴 실행
         }
         else
         {
@@ -202,7 +158,15 @@ public class BattleManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1.0f);
-        StartNextPlayerTurn();
+
+        // 몬스터 턴 종료 시 몬스터의 버프/디버프 지속 턴 감소 처리
+        if (activeMonster != null) activeMonster.OnTurnEndProcess();
+
+        // 몬스터의 공격으로 플레이어가 사망(Lost 상태)한 게 아니라면 다음 턴 진행
+        if (currentState != BattleState.Lost)
+        {
+            StartNextPlayerTurn();
+        }
     }
 
     private void StartNextPlayerTurn()
@@ -215,7 +179,8 @@ public class BattleManager : MonoBehaviour
         PlayerStats pStats = FindFirstObjectByType<PlayerStats>();
         if (pStats != null)
         {
-            pStats.ResetArmor();
+            pStats.ResetArmor();           // 플레이어 일회성 안정감 소멸
+            pStats.ProcessStartTurnRegen(); // 지속 버프가 있다면 턴 시작 시 방어도 생성
         }
 
         ResetMana();
@@ -223,11 +188,30 @@ public class BattleManager : MonoBehaviour
         CardManager cardManager = FindFirstObjectByType<CardManager>();
         if (cardManager != null)
         {
-            cardManager.DrawCard();
+            cardManager.DrawCard(); // 카드 드로우 (추가 예약 드로우 자동 합산)
         }
 
         if (turnEndButton != null) turnEndButton.interactable = true;
         RefreshBattleUI();
+    }
+
+    // 플레이어 탈진(패배) 처리 함수
+    public void HandlePlayerDefeat()
+    {
+        if (currentState == BattleState.Lost) return; // 중복 실행 방지
+
+        currentState = BattleState.Lost;
+        Debug.Log("<color=red><b>[배틀 매니저] 플레이어 탈진 상태 확인. 게임 오버를 선언합니다.</b></color>");
+
+        // 턴 종료 버튼 잠금
+        if (turnEndButton != null) turnEndButton.interactable = false;
+
+        // 플레이어가 카드를 더 이상 건드리지 못하게 상호작용 차단
+        CardManager cardManager = FindFirstObjectByType<CardManager>();
+        if (cardManager != null)
+        {
+            cardManager.SetHandInteractable(false);
+        }
     }
 
     public void RefreshBattleUI()

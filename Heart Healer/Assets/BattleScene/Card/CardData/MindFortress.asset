@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3edb6f7332e4ff54b8c2f5edbd200780, type: 3}
-  m_Name: block
+  m_Name: MindFortress
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: "\uC218\uBE44"
-  cost: 1
+  cardID: MindFortress
+  cardName: "\uC2EC\uC0C1 \uAC15\uD654"
+  cost: 2
+  cardArt: {fileID: 0}
   damage: 0
   puredamage: 0
-  armorAmount: 5
-  baseDescription: "\uCF54\uC2A4\uD2B8 [cost]\uC744 \uC18C\uBAA8\uD558\uC5EC [arm]\uBC29\uC5B4\uB3C4\uB97C
-    \uC5BB\uC2B5\uB2C8\uB2E4."
-  cardGraphic: {fileID: 0}
+  armor: 12
+  vulnerableTurns: 0
+  drawCount: 0
+  baseDescription: "\uB2E8\uB2E8\uD55C \uB9C8\uC74C\uC758 \uBCBD\uC744 \uC138\uC6CC
+    \uC548\uC815\uAC10\uC744 [arm]\uB9CC\uD07C \uD06C\uAC8C \uD68D\uB4DD\uD569\uB2C8\uB2E4."

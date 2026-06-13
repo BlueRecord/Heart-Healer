@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3edb6f7332e4ff54b8c2f5edbd200780, type: 3}
+  m_Name: Brainstorming
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardID: Brainstorming
+  cardName: "\uBE0C\uB808\uC778\uC2A4\uD1A0\uBC0D"
+  cost: 1
+  cardArt: {fileID: 0}
+  damage: 0
+  puredamage: 0
+  armor: 0
+  vulnerableTurns: 0
+  drawCount: 3
+  baseDescription: "\uC0DD\uAC01\uC744 \uD655\uC7A5\uD558\uC5EC \uB371\uC5D0\uC11C
+    \uC0C8\uB85C\uC6B4 \uCE74\uB4DC\uB97C \uC989\uC2DC 3\uC7A5 \uBF51\uC2B5\uB2C8\uB2E4."

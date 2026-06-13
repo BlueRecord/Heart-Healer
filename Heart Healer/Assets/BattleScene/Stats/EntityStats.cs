@@ -10,9 +10,13 @@ public class EntityStats : MonoBehaviour
     [SerializeField] protected int armor;
     [SerializeField] protected int maxArmor = 0;
 
-    // ★ [중요] 공격력(위력) 기본 스탯 필드
     [Header("Attack Stats")]
-    [SerializeField] protected int baseAttack = 0;
+    [SerializeField] public int baseAttack = 0; // 공격력 버프
+
+    [Header("Advanced States System")]
+    [SerializeField] public int vulnerableTurns = 0; // 취약(마음 열림) 지속 턴
+    [SerializeField] protected int nextTurnBonusDraw = 0; // 다음 턴 추가 드로우 예약
+    [SerializeField] protected int permanentArmorRegen = 0; // 매 턴 방어도 생성력
 
     [Header("UI Reference")]
     [SerializeField] protected CombatUIController uiController;
@@ -20,13 +24,18 @@ public class EntityStats : MonoBehaviour
     public int CurrentHp => hp;
     public int MaxHp => maxHp;
     public int CurrentArmor => armor;
-    public int CurrentAttack => baseAttack; // 외부에 현재 공격력을 리턴하는 Getter
+    public int CurrentAttack => baseAttack;
+
+    public bool IsVulnerable => vulnerableTurns > 0;
+    public int NextTurnBonusDraw => nextTurnBonusDraw;
 
     protected void InitStats()
     {
         hp = maxHp;
         armor = maxArmor;
-        Debug.Log($"<color=white>[초기화] {gameObject.name} (HP: {hp}/{maxHp}, 공격력: {baseAttack})</color>");
+        vulnerableTurns = 0;
+        nextTurnBonusDraw = 0;
+        permanentArmorRegen = 0;
         RefreshUI();
     }
 
@@ -38,18 +47,37 @@ public class EntityStats : MonoBehaviour
         }
     }
 
-    // 벌크업 카드나 몬스터 성장 기믹 작동 시 공격력을 올리는 함수
     public void AddAttack(int amount)
     {
         baseAttack += amount;
-        Debug.Log($"<color=yellow>[버프] {gameObject.name}의 공격력이 {amount} 증가했습니다! 현재 공격력: {baseAttack}</color>");
-        RefreshUI(); // ★ 공격력이 바뀌는 순간 화면 UI 자동 동기화
+        RefreshUI();
     }
 
-    // 카드 고유 데미지에 내 현재 공격력 버프를 융합하여 최종 대미지 연산
     public int CalculateOutputDamage(int cardBaseDamage)
     {
-        return Mathf.Max(0, cardBaseDamage + baseAttack);
+        int finalDmg = Mathf.Max(0, cardBaseDamage + baseAttack);
+        if (IsVulnerable)
+        {
+            finalDmg = Mathf.RoundToInt(finalDmg * 1.5f); // 취약 시 1.5배 대미지
+        }
+        return finalDmg;
+    }
+
+    public void ApplyVulnerable(int turns)
+    {
+        if (turns <= 0) return;
+        vulnerableTurns += turns;
+        RefreshUI();
+    }
+
+    public void ReserveNextTurnDraw(int amount)
+    {
+        nextTurnBonusDraw += amount;
+    }
+
+    public void IncreasePermanentArmorRegen(int amount)
+    {
+        permanentArmorRegen += amount;
     }
 
     public void TakeDamage(int rawDamage)
@@ -77,9 +105,7 @@ public class EntityStats : MonoBehaviour
             if (hp < 0) hp = 0;
         }
 
-        Debug.Log($"<color=orange>[전투] {gameObject.name}이(가) {rawDamage}의 피해를 받음 -> 남은 HP: {hp}</color>");
         RefreshUI();
-
         if (hp <= 0) Die();
     }
 
@@ -101,19 +127,34 @@ public class EntityStats : MonoBehaviour
 
     public virtual void OnTurnEndProcess()
     {
-        // 자식 클래스에서 오버라이드하여 턴 정산 기믹 처리
+        if (vulnerableTurns > 0)
+        {
+            vulnerableTurns--;
+            RefreshUI();
+        }
     }
 
-    // MonsterStats.cs 내부에 추가
+    public void ProcessStartTurnRegen()
+    {
+        if (permanentArmorRegen > 0)
+        {
+            GetArmor(permanentArmorRegen);
+        }
+    }
+
+    public void ClearNextTurnDraw()
+    {
+        nextTurnBonusDraw = 0;
+    }
+
     public void ResetArmorHardcoded()
     {
-        this.armor = 0; // 부모의 armor 변수에 직접 0을 대입
-        RefreshUI();    // 변경된 0 수치를 UI에 즉시 반영
-        Debug.Log($"<color=gray>[턴 정산] {gameObject.name}의 방어도가 0으로 초기화되었습니다.</color>");
+        this.armor = 0;
+        RefreshUI();
     }
 
     protected virtual void Die()
     {
-        Debug.Log($"<color=black><b>[사망] {gameObject.name}이 탈진했습니다.</b></color>");
+        Debug.Log($"{gameObject.name}이 탈진했습니다.");
     }
 }

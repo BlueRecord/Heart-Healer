@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3edb6f7332e4ff54b8c2f5edbd200780, type: 3}
+  m_Name: BuildEmpathy
+  m_EditorClassIdentifier: Assembly-CSharp::CardData
+  cardID: BuildEmpathy
+  cardName: "\uACF5\uAC10\uB300 \uD615\uC131"
+  cost: 2
+  cardArt: {fileID: 0}
+  damage: 7
+  puredamage: 0
+  armor: 0
+  vulnerableTurns: 1
+  drawCount: 1
+  baseDescription: "\uC11C\uB85C\uC758 \uACF5\uAC10\uB300\uB97C \uC790\uADF9\uD558\uC5EC
+    \uC7A5\uBCBD\uC744 [dmg] \uC81C\uAC70\uD558\uACE0, \uB9C8\uC74C \uC5F4\uB9BC
+    1\uD134 \uBD80\uC5EC \uBC0F \uCE74\uB4DC\uB97C 1\uC7A5 \uBF51\uC2B5\uB2C8\uB2E4."

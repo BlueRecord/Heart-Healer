@@ -12,7 +12,7 @@ public class PlayerStats : EntityStats
 
     void Start()
     {
-        // 프리팹 동적 소환 시 플레이어 UI를 자동으로 찾아 연결합니다.
+        // 1. 프리팹 동적 소환 시 Hierarchy에 있는 'PlayerUI'를 이름으로 정확히 찾아 연결합니다.
         if (uiController == null)
         {
             GameObject playerUIObj = GameObject.Find("PlayerUI");
@@ -26,13 +26,20 @@ public class PlayerStats : EntityStats
             }
         }
 
+        // 찾은 플레이어 UI 컨트롤러에게 타겟 설정 주입
+        if (uiController != null)
+        {
+            uiController.targetStats = this;
+        }
+
         // 게임 시작 시 초기 이미지셋을 '전투 중(기본)' 이미지로 강제 고정합니다.
         if (playerGraphicImage != null && normalSprite != null)
         {
             playerGraphicImage.sprite = normalSprite;
         }
 
-        InitStats(); // 부모(EntityStats)의 스탯 및 UI 초기화
+        InitStats(); // 부모(EntityStats)의 스탯(HP 만땅 등) 초기화 수행
+        RefreshUI();
     }
 
     public override void OnTurnEndProcess()
@@ -46,7 +53,7 @@ public class PlayerStats : EntityStats
         if (armor > 0)
         {
             armor = 0;
-            Debug.Log("<color=gray>[턴 종료 세정] 플레이어의 소모성 방어도가 소멸되어 0이 되었습니다.</color>");
+            Debug.Log("<color=gray>[턴 종료] 플레이어의 일회성 안정감(방어)이 소멸되었습니다.</color>");
             RefreshUI();
         }
     }
@@ -57,14 +64,11 @@ public class PlayerStats : EntityStats
         base.Die(); // 부모의 기본 탈진 로그 출력
         Debug.Log("<color=red><b>[게임 오버] 플레이어가 탈진 상태에 빠졌습니다!</b></color>");
 
-        // ★ [이미지 변경 포트 작동] 플레이어의 일러스트를 패배(탈진) 스프라이트로 전격 교체합니다!
         if (playerGraphicImage != null && defeatedSprite != null)
         {
             playerGraphicImage.sprite = defeatedSprite;
-            Debug.Log("<color=red>[UI] 플레이어의 그래픽이 패배 일러스트로 교체되었습니다.</color>");
         }
 
-        // 배틀 매니저에게 플레이어가 패배(Lost)했음을 실시간으로 알립니다.
         if (BattleManager.Instance != null)
         {
             BattleManager.Instance.HandlePlayerDefeat();

@@ -477,6 +477,7 @@
 "Assets/BattleScene/Battle/CombatUIController.cs"
 "Assets/BattleScene/Battle/OpenGraveAndDeck.cs"
 "Assets/BattleScene/Card/CardData.cs"
+"Assets/BattleScene/Card/CardEffectProcessor.cs"
 "Assets/BattleScene/Card/CardManager.cs"
 "Assets/BattleScene/Card/CardUI.cs"
 "Assets/BattleScene/Card/CardUIPopVer.cs"
