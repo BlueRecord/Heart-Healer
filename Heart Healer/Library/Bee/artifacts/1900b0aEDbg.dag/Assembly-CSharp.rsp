@@ -477,6 +477,7 @@
 "Assets/BattleScene/Battle/CombatUIController.cs"
 "Assets/BattleScene/Battle/IntentHoverTooltip.cs"
 "Assets/BattleScene/Battle/OpenGraveAndDeck.cs"
+"Assets/BattleScene/Battle/RewardManager.cs"
 "Assets/BattleScene/Card/CardData.cs"
 "Assets/BattleScene/Card/CardEffectProcessor.cs"
 "Assets/BattleScene/Card/CardManager.cs"
@@ -488,8 +489,13 @@
 "Assets/BattleScene/Stats/PlayerStats.cs"
 "Assets/DataManger.cs"
 "Assets/Deck/DeckManager.cs"
-"Assets/MapController.cs"
-"Assets/MapManager.cs"
+"Assets/EndingManager.cs"
+"Assets/MapControl/BattleSpawnManager.cs"
+"Assets/MapControl/MapController.cs"
+"Assets/MapControl/MapManager.cs"
+"Assets/OpeningManager.cs"
+"Assets/SaveData/SaveData.cs"
+"Assets/SaveData/SaveManager.cs"
 -langversion:9.0
 /deterministic
 /optimize-

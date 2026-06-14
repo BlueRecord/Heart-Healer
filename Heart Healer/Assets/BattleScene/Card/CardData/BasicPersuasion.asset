@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: BasicPersuasion
   cardName: "\uAE30\uBCF8 \uC124\uB4DD"
   cost: 1
-  cardArt: {fileID: 0}
+  cardArt: {fileID: -9044709638087597559, guid: bf0389265b7bb8a4591b81558a60ddb8, type: 3}
   damage: 6
   puredamage: 0
   armor: 0

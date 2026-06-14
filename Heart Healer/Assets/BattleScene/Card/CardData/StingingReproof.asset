@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: StingingReproof
   cardName: "\uC77C\uCE68 \uAC00\uD558\uAE30"
   cost: 3
-  cardArt: {fileID: 0}
+  cardArt: {fileID: 4130640169021434097, guid: b9a33c32a5e055b4cbfc427db1560496, type: 3}
   damage: 18
   puredamage: 0
   armor: 0

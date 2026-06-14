@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: LogicalRefutation
   cardName: "\uB17C\uB9AC\uC801 \uBC18\uBC15"
   cost: 1
-  cardArt: {fileID: 0}
+  cardArt: {fileID: 4130640169021434097, guid: b9a33c32a5e055b4cbfc427db1560496, type: 3}
   damage: 9
   puredamage: 0
   armor: 0

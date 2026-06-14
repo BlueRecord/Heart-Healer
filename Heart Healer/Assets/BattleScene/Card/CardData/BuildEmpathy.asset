@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: BuildEmpathy
   cardName: "\uACF5\uAC10\uB300 \uD615\uC131"
   cost: 2
-  cardArt: {fileID: 0}
+  cardArt: {fileID: -9044709638087597559, guid: bf0389265b7bb8a4591b81558a60ddb8, type: 3}
   damage: 7
   puredamage: 0
   armor: 0

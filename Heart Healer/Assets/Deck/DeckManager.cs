@@ -49,4 +49,21 @@ public class DeckManager : MonoBehaviour
             Debug.Log($"<color=cyan><b>[DeckManager] 덱에 카드 추가: {newCard.cardName} (총 {playerDeck.Count}장)</b></color>");
         }
     }
+
+    // DeckManager.cs에 추가
+    public void LoadDeckFromIDs(List<string> cardIDs)
+    {
+        playerDeck.Clear();
+        foreach (string id in cardIDs)
+        {
+            // 카드 ID(이름)로 카드를 찾아서 다시 덱에 추가
+            // 예: Resources.Load를 쓰거나, 미리 정의된 카드 데이터베이스에서 찾기
+            CardData loadedCard = Resources.Load<CardData>("Cards/" + id);
+            if (loadedCard != null)
+            {
+                playerDeck.Add(loadedCard);
+            }
+        }
+        Debug.Log($"덱 복구 완료! 총 {playerDeck.Count}장");
+    }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: ContinuousListening
   cardName: "\uC5F0\uC18D \uACBD\uCCAD"
   cost: 1
-  cardArt: {fileID: 0}
+  cardArt: {fileID: 4130640169021434097, guid: b9a33c32a5e055b4cbfc427db1560496, type: 3}
   damage: 3
   puredamage: 0
   armor: 3

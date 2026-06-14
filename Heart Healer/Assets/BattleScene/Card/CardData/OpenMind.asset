@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: OpenMind
   cardName: "\uC624\uD508 \uB9C8\uC778\uB4DC"
   cost: 1
-  cardArt: {fileID: 0}
+  cardArt: {fileID: -8597561430023393520, guid: ec64ed471ad1d2142b9c50fdee978003, type: 3}
   damage: 4
   puredamage: 0
   armor: 0

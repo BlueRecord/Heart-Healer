@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: MindFortress
   cardName: "\uC2EC\uC0C1 \uAC15\uD654"
   cost: 2
-  cardArt: {fileID: 0}
+  cardArt: {fileID: -8597561430023393520, guid: ec64ed471ad1d2142b9c50fdee978003, type: 3}
   damage: 0
   puredamage: 0
   armor: 12

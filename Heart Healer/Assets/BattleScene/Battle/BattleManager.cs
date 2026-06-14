@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
-// 전투 상태를 관리하는 열거형
 public enum BattleState { PlayerTurn, EnemyTurn, Victory, Lost }
 
 public class BattleManager : MonoBehaviour
@@ -46,13 +45,16 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
     {
-        // 싱글톤 패턴 적용
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
 
-    void Start()
+    // ★ 핵심 수정: Start를 코루틴(IEnumerator)으로 변경하여 배달부(BattleSpawnManager)가 데이터를 꽂아줄 시간을 벌어줍니다.
+    IEnumerator Start()
     {
+        // 0. 다른 매니저들의 Awake 처리가 모두 끝날 때까지 단 1프레임 양보하고 기다립니다.
+        yield return null;
+
         // 1. 플레이어 및 몬스터 프리팹 생성
         GameObject pObj = Instantiate(playerPrefab, playerSpawnPoint);
         GameObject mObj = Instantiate(monsterPrefab, monsterSpawnPoint);
@@ -60,12 +62,12 @@ public class BattleManager : MonoBehaviour
         pObj.name = "Player";
         mObj.name = "Monster";
 
-        // 2. 몬스터 스탯 초기화
+        // 2. 이제 배달부에게 전달받은 최신 stageMonsterData를 바탕으로 안전하게 스탯을 세팅합니다.
         MonsterStats monsterStats = mObj.GetComponent<MonsterStats>();
         if (monsterStats != null && stageMonsterData != null)
         {
             monsterStats.SetupMonster(stageMonsterData);
-            Debug.Log($"[BattleManager] {stageMonsterData.monsterName} 데이터 로드 완료!");
+            Debug.Log($"[BattleManager] {stageMonsterData.monsterName} 데이터 최종 로드 및 스탯 적용 완료!");
         }
         else
         {
@@ -79,11 +81,18 @@ public class BattleManager : MonoBehaviour
             turnEndButton.onClick.AddListener(OnTurnEndButtonClicked);
         }
 
-        // 4. 덱 초기화 및 전투 시작
+        // 4. 데이터 세팅이 완벽히 끝난 후 덱을 초기화하고 전투를 시작하므로 카드 에러가 나지 않습니다.
         CardManager cardManager = FindFirstObjectByType<CardManager>();
         if (cardManager != null) cardManager.PrepareInitDeck();
 
         StartBattle();
+    }
+
+    // ★ 배달부(BattleSpawnManager)가 호출해서 데이터를 강제로 꽂아넣을 통로 함수를 명시적으로 열어줍니다.
+    public void SetStageMonsterData(MonsterData data)
+    {
+        stageMonsterData = data;
+        Debug.Log($"[BattleManager] 배달부로부터 '{data.monsterName}' 데이터를 수령했습니다.");
     }
 
     public void StartBattle()
@@ -104,13 +113,11 @@ public class BattleManager : MonoBehaviour
         RefreshBattleUI();
     }
 
-    // 카드 사용 가능 여부 체크 (턴 및 마나 확인)
     public bool CanUseCard(int cost)
     {
         return currentState == BattleState.PlayerTurn && currentMana >= cost;
     }
 
-    // 마나 소비 처리
     public void SpendMana(int amount)
     {
         currentMana -= amount;
@@ -124,17 +131,14 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(PlayerEndTurnRoutine());
     }
 
-    // 플레이어 턴 종료 시 호출
     private IEnumerator PlayerEndTurnRoutine()
     {
         currentState = BattleState.EnemyTurn;
         if (turnEndButton != null) turnEndButton.interactable = false;
 
-        // 플레이어 버프/디버프 정산
         PlayerStats pStats = FindFirstObjectByType<PlayerStats>();
         if (pStats != null) pStats.OnTurnEndProcess();
 
-        // 손패 카드 무덤으로 이동
         CardManager cardManager = FindFirstObjectByType<CardManager>();
         if (cardManager != null) cardManager.DiscardHand();
 
@@ -142,7 +146,6 @@ public class BattleManager : MonoBehaviour
         StartCoroutine(EnemyTurnRoutine());
     }
 
-    // 몬스터 턴 로직
     private IEnumerator EnemyTurnRoutine()
     {
         yield return new WaitForSeconds(1.0f);
@@ -160,10 +163,8 @@ public class BattleManager : MonoBehaviour
 
         yield return new WaitForSeconds(1.0f);
 
-        // 몬스터 버프/디버프 정산
         if (activeMonster != null) activeMonster.OnTurnEndProcess();
 
-        // 게임 오버가 아닐 경우 다음 플레이어 턴으로 진행
         if (currentState != BattleState.Lost)
         {
             StartNextPlayerTurn();
@@ -175,7 +176,6 @@ public class BattleManager : MonoBehaviour
         turnCount++;
         currentState = BattleState.PlayerTurn;
 
-        // 플레이어 턴 시작 시 방어도 초기화 및 지속 효과 적용
         PlayerStats pStats = FindFirstObjectByType<PlayerStats>();
         if (pStats != null)
         {
@@ -195,14 +195,12 @@ public class BattleManager : MonoBehaviour
         RefreshBattleUI();
     }
 
-    // 패배 시 호출 함수
     public void HandlePlayerDefeat()
     {
         if (currentState == BattleState.Lost) return;
 
         currentState = BattleState.Lost;
 
-        // 버튼 잠금 및 카드 입력 차단
         if (turnEndButton != null) turnEndButton.interactable = false;
 
         CardManager cardManager = FindFirstObjectByType<CardManager>();
@@ -212,7 +210,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    // UI 동기화
     public void RefreshBattleUI()
     {
         if (manaText != null)
@@ -230,7 +227,6 @@ public class BattleManager : MonoBehaviour
             turnCountText.text = turnCount.ToString();
         }
 
-        // 등록된 모든 UI 컨트롤러 갱신
         if (allUIControllers == null) return;
         foreach (var ui in allUIControllers)
         {

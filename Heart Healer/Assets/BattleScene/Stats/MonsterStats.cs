@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MonsterStats : EntityStats // 부모의 스탯 필드 및 InitStats 상속
 {
@@ -108,7 +109,7 @@ public class MonsterStats : EntityStats // 부모의 스탯 필드 및 InitStats 상속
                 intentDetailText.text = $"<b>\"{nextAction.monsterDialogue}\"</b>\n\n{nextAction.intentDescription}";
             }
         }
-        }
+    }
 
     public void ExecuteMonsterTurn()
     {
@@ -148,25 +149,49 @@ public class MonsterStats : EntityStats // 부모의 스탯 필드 및 InitStats 상속
         UpdateNextIntent();
     }
 
+    // MonsterStats.cs 맨 아래에 있는 Die() 함수를 다음과 같이 수정
+    // MonsterStats.cs - Die() 함수 수정
     protected override void Die()
     {
-        // ★ [핵심 추가] 몬스터가 사망할 때(전투 승리 시) 일러스트를 승리 그래픽으로 교체합니다.
-        if (currentMonsterData != null && currentMonsterData.monsterVictoryGraphic != null)
+        // [수정] 몬스터가 죽으면 그래픽과 UI 텍스트만 먼저 꺼줍니다. (오브젝트는 아직 살려둠)
+        if (monsterGraphicImage != null) monsterGraphicImage.gameObject.SetActive(false);
+        if (intentText != null) intentText.gameObject.SetActive(false);
+
+        // 스테이지 3 최종 승리 판정
+        if (MapManager.Instance != null && MapManager.Instance.currentStage == 3)
         {
-            if (monsterGraphicImage != null)
-            {
-                monsterGraphicImage.sprite = currentMonsterData.monsterVictoryGraphic;
-                Debug.Log($"<color=green>[전투 승리]</color> {gameObject.name}이 마음을 열어 승리 일러스트로 교체되었습니다!");
-            }
+            Debug.Log("최종 스테이지 클리어! 엔딩으로 이동합니다.");
+            SceneManager.LoadScene("Ending");
+            base.Die(); // 여기서 최종 파괴
+            return;
         }
 
-        // 의도 텍스트가 남아있으면 어색하므로 사망 시 비워줍니다.
-        if (intentText != null)
+        // 1. 단계 진행 및 플래그 세우기
+        if (MapManager.Instance != null)
         {
-            intentText.text = "";
+            MapManager.Instance.OnBattleVictory();
         }
 
-        // 부모 클래스(EntityStats)의 기존 사망 처리(사망 팝업 띄우기, 씬 전환 준비 등)를 그대로 실행합니다.
+        // 2. 자동 저장 진행
+        if (SaveManager.Instance != null)
+        {
+            SaveManager.Instance.SaveGame();
+        }
+
+        // 3. 보상 팝업 호출 (오브젝트 파괴 전에 안전하게 호출 완료)
+        if (RewardManager.Instance != null)
+        {
+            Debug.Log("[MonsterStats] RewardManager를 통해 카드 보상 선택 창을 활성화합니다.");
+            RewardManager.Instance.ShowBattleReward();
+        }
+        else
+        {
+            // 만약 RewardManager가 씬에 없거나 오류가 날 때를 대비한 예외 처리 예시
+            Debug.LogWarning("[MonsterStats] RewardManager를 찾을 수 없어 즉시 스테이지 맵으로 나갑니다.");
+            SceneManager.LoadScene("Stage");
+        }
+
+        // ★ [핵심] 모든 연동 작업이 무사히 다 끝난 뒤 부모의 Die(Destroy)를 수행합니다.
         base.Die();
     }
 }

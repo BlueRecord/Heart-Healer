@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: Catharsis
   cardName: "\uCE74\uD0C0\uB974\uC2DC\uC2A4"
   cost: 2
-  cardArt: {fileID: 0}
+  cardArt: {fileID: -3561242723667767375, guid: 57cc068da483b3049872c674a9225e68, type: 3}
   damage: 10
   puredamage: 0
   armor: 6

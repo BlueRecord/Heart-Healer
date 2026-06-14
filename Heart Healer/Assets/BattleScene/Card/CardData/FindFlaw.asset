@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: FindFlaw
   cardName: "\uD5C8\uC810 \uD3EC\uCC29"
   cost: 0
-  cardArt: {fileID: 0}
+  cardArt: {fileID: -3561242723667767375, guid: 57cc068da483b3049872c674a9225e68, type: 3}
   damage: 2
   puredamage: 0
   armor: 0

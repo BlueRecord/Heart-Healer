@@ -15,8 +15,8 @@ MonoBehaviour:
   monsterName: "\uC9D1\uC911 \uBABB\uD558\uB294 \uCD08\uB4F1\uD559\uC0DD"
   hpValue: 30
   attackValue: 3
-  monsterGraphic: {fileID: 0}
-  monsterVictoryGraphic: {fileID: 0}
+  monsterGraphic: {fileID: -8627128537316556504, guid: 8f8c8afa9526bf04fb8b10aa002cfc9e, type: 3}
+  monsterVictoryGraphic: {fileID: -6458252037785071918, guid: c0d72d4911c2ad542945a1d24ae4b8a1, type: 3}
   behaviorPattern:
   - patternName: "\uBC1C \uAC00\uB9CC\uD788 \uC548 \uB450\uAE30"
     monsterDialogue: "\"\uB450\uB450\uB450\uB465! \uC324 \uC774\uAC83 \uBD10\uC694,

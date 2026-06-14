@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ef437313f2b14448257b88b2628d0c, type: 3}
   m_Name: PerfectCollegeStudent
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
-  monsterName: "\uC644\uBCBD\uC8FC\uC758 \uB300\uD559\uC0DD"
+  monsterName: "\uD604\uC2E4\uC801\uC778 \uB300\uD559\uC0DD"
   hpValue: 100
   attackValue: 0
   monsterGraphic: {fileID: -5817949806092865025, guid: d6f27a369201188499b884b999e5e492, type: 3}

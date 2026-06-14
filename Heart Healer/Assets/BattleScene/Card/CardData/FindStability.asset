@@ -15,7 +15,7 @@ MonoBehaviour:
   cardID: FindStability
   cardName: "\uC548\uC815\uAC10 \uCC3E\uAE30"
   cost: 1
-  cardArt: {fileID: 0}
+  cardArt: {fileID: 8809240102237063672, guid: bc995b98ca9b56e4db33285c79c79184, type: 3}
   damage: 0
   puredamage: 0
   armor: 5
