@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class MapManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static MapManager Instance;
 
     public bool stage1Clear = false;
     public bool stage2Clear = false;
@@ -21,5 +21,16 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }
