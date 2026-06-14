@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ef437313f2b14448257b88b2628d0c, type: 3}
+  m_Name: GrandMother
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  monsterName: "\uACE0\uC9D1 \uC13C \uD560\uBA38\uB2C8"
+  hpValue: 150
+  attackValue: 0
+  monsterGraphic: {fileID: 0}
+  monsterVictoryGraphic: {fileID: 0}
+  behaviorPattern:
+  - patternName: "\uD600 \uCBE7\uCBE7 \uCC28\uAE30"
+    monsterDialogue: "\"\uCBE7\uCBE7, \uC80A\uC740 \uC0AC\uB78C\uC774 \uC735\uD1B5\uC131\uC774
+      \uC5C6\uC5B4\uAC00\uC9C0\uACE0...\""
+    intentDescription: "\uC5F0\uB95C\uC5D0\uC11C \uB098\uC624\uB294 \uC794\uC18C\uB9AC\uB85C
+      \uC815\uC2E0\uB825\uC5D0 6\uC758 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
+    actionType: 0
+    value: 6
+    additionalDamage: 0
+  - patternName: "\uAF30\uB300"
+    monsterDialogue: "\"\uB77C\uB5BC\uB294 \uB9D0\uC5EC~\""
+    intentDescription: "\uC815\uC2E0\uB825\uC744 4 \uAE4E\uACE0, \uB2E4\uC74C \uD134
+      \uB3D9\uC548 \uC0C1\uB2F4\uC0AC\uAC00 \uC0AC\uC6A9\uD558\uB294 \uBAA8\uB4E0
+      \uCE74\uB4DC \uCF54\uC2A4\uD2B8\uB97C 1 \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
+    actionType: 8
+    value: 1
+    additionalDamage: 0
+  - patternName: "\uCCAD\uB825 \uC0C1\uC2E4 \uC5F0\uAE30"
+    monsterDialogue: "\"\uC544\uC774\uACE0 \uADC0\uAC00 \uBA39\uC5B4\uC11C \uC548
+      \uB4E4\uB824! \uBB50\uB77C\uB294\uACA8?\""
+    intentDescription: "\uB300\uD654\uB97C \uCC28\uB2E8\uD558\uC5EC \uAC00\uC7A5
+      \uB192\uC740 \uC218\uCE58\uC778 \uBC29\uC5B4\uB3C4\uB97C 10 \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    actionType: 1
+    value: 10
+    additionalDamage: 0
+  - patternName: "\uC794\uC18C\uB9AC \uD3ED\uD0C4"
+    monsterDialogue: "\"\uADFC\uB370 \uC120\uC0DD \uACB0\uD63C\uC740 \uD588\uB294\uAC00?\""
+    intentDescription: "\uC815\uC2E0\uB825\uC744 5 \uAE4E\uACE0, \uB2E4\uC74C \uD134
+      \uB3D9\uC548 \uC0C1\uB2F4\uC0AC \uCE74\uB4DC\uC758 \uB370\uBBF8\uC9C0\uB97C
+      1 \uAC10\uC18C\uC2DC\uD0B5\uB2C8\uB2E4."
+    actionType: 9
+    value: 1
+    additionalDamage: 0

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ef437313f2b14448257b88b2628d0c, type: 3}
+  m_Name: ElementryStudent
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  monsterName: "\uC9D1\uC911 \uBABB\uD558\uB294 \uCD08\uB4F1\uD559\uC0DD"
+  hpValue: 30
+  attackValue: 3
+  monsterGraphic: {fileID: 0}
+  monsterVictoryGraphic: {fileID: 0}
+  behaviorPattern:
+  - patternName: "\uBC1C \uAC00\uB9CC\uD788 \uC548 \uB450\uAE30"
+    monsterDialogue: "\"\uB450\uB450\uB450\uB465! \uC324 \uC774\uAC83 \uBD10\uC694,
+      \uB4DC\uB7FC \uC18C\uB9AC \uAC19\uC8E0?\""
+    intentDescription: "\uC0C1\uB2F4\uC0AC\uC758 \uC815\uC2E0\uB825\uC744 3 \uAE4E\uC2B5\uB2C8\uB2E4."
+    actionType: 0
+    value: 3
+    additionalDamage: 0
+  - patternName: "\uB534\uC9D3\uD558\uAE30"
+    monsterDialogue: "\"\uC324 \uADFC\uB370 \uC774\uAC70 \uBD10\uC694\""
+    intentDescription: "\uC815\uC2E0\uB825\uC744 3 \uAE4E\uACE0, \uC544\uBB34 \uD6A8\uACFC
+      \uC5C6\uB294 \uB354\uBBF8 \uCE74\uB4DC\uB97C \uB371\uC5D0 2\uC7A5 \uC9D1\uC5B4\uB123\uC2B5\uB2C8\uB2E4."
+    actionType: 5
+    value: 4
+    additionalDamage: 0
+  - patternName: "\uB208 \uAC00\uB9AC\uAE30"
+    monsterDialogue: "\"\uC548 \uBCF4\uC774\uC9C0\uB871~ \uB098 \uC5EC\uAE30 \uC5C6\uB2E4!\""
+    intentDescription: "\uBAB8\uC744 \uC228\uACA8 \uBC29\uC5B4\uB3C4\uB97C 4 \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    actionType: 1
+    value: 4
+    additionalDamage: 0
+  - patternName: "\uBC14\uB2E5\uC5D0 \uB215\uAE30"
+    monsterDialogue: "\"\uBAB0\uB77C\uC694 ! \uC7AC\uBBF8\uC5C6\uC5B4!\""
+    intentDescription: "\uC815\uC2E0\uB825\uC744 5 \uAE4E\uACE0, \uB2E4\uC74C \uD134\uC5D0
+      \uC0C1\uB2F4\uC0AC\uAC00 \uBF51\uB294 \uCE74\uB4DC \uC7A5\uC218\uB97C 1\uC7A5
+      \uAC10\uC18C\uC2DC\uD0B5\uB2C8\uB2E4."
+    actionType: 6
+    value: 1
+    additionalDamage: 0

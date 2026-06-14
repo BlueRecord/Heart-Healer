@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30ef437313f2b14448257b88b2628d0c, type: 3}
+  m_Name: PerfectCollegeStudent
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  monsterName: "\uC644\uBCBD\uC8FC\uC758 \uB300\uD559\uC0DD"
+  hpValue: 100
+  attackValue: 0
+  monsterGraphic: {fileID: -5817949806092865025, guid: d6f27a369201188499b884b999e5e492, type: 3}
+  monsterVictoryGraphic: {fileID: -380082063, guid: d6f27a369201188499b884b999e5e492, type: 3}
+  behaviorPattern:
+  - patternName: "\uC2DC\uACC4 \uCCD0\uB2E4\uBCF4\uAE30"
+    monsterDialogue: "\"(\uD558\uC544...) \uC5B8\uC81C \uB05D\uB098\uC694? \uB4A4\uC5D0
+      \uC870\uBCC4 \uACFC\uC81C \uD68C\uC758\uAC00 \uC788\uC5B4\uC11C.\""
+    intentDescription: "\uC0C1\uB2F4\uC0AC\uC5D0\uAC8C \uC740\uADFC\uD55C \uC555\uBC15\uC744
+      \uC8FC\uC5B4 \uC815\uC2E0\uB825\uC744 4 \uAE4E\uC2B5\uB2C8\uB2E4."
+    actionType: 0
+    value: 4
+    additionalDamage: 0
+  - patternName: "\uC774\uC5B4\uD3F0\uB07C\uAE30"
+    monsterDialogue: "\"\uC5B4\uCC28\uD53C \uBED4\uD55C \uC18C\uB9AC \uD558\uC2E4
+      \uAC70\uC796\uC544\uC694\""
+    intentDescription: "\uB9C8\uC74C\uC758 \uBCBD\uC744 \uC313\uC544 \uBC29\uC5B4\uB3C4\uB97C
+      5 \uC5BB\uACE0, \uB3D9\uC2DC\uC5D0 \uC0C1\uB2F4\uC0AC\uC758 \uC815\uC2E0\uB825\uC744
+      3 \uAE4E\uC2B5\uB2C8\uB2E4."
+    actionType: 4
+    value: 5
+    additionalDamage: 3
+  - patternName: "\uBC29\uC5B4\uAE30\uC81C \uC791\uB3D9"
+    monsterDialogue: "\"\uC120\uC0DD\uB2D8\uC774 \uC81C \uC0C1\uD669\uC744 \uB2E4
+      \uC544\uC2DC\uB294 \uAC83\uCC98\uB7FC \uB9D0\uC500\uD558\uC2DC\uB124\uC694.\""
+    intentDescription: "\uAC10\uC815\uC744 \uCC28\uB2E8\uD558\uC5EC \uACAC\uACE0\uD55C
+      \uBC29\uC5B4\uB3C4\uB97C 7 \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    actionType: 1
+    value: 7
+    additionalDamage: 0
+  - patternName: "\uD329\uD2B8 \uD3ED\uD589"
+    monsterDialogue: "\"\uC5B4\uCC28\uD53C \uC9C1\uC5C5\uC774\uB77C \uC5B5\uC9C0\uB85C
+      \uB4E4\uC5B4\uC8FC\uC2DC\uB294\uAC70 \uC544\uB2C8\uC5D0\uC694?\""
+    intentDescription: "\uC0C1\uB2F4\uC0AC\uAC00 \uC190\uC5D0 \uB4E4\uACE0 \uC788\uB294
+      \uCE74\uB4DC * 2\uB9CC\uD07C \uC815\uC2E0\uB825\uC744 \uAE4E\uC2B5\uB2C8\uB2E4."
+    actionType: 7
+    value: 2
+    additionalDamage: 0

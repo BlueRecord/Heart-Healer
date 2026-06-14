@@ -7,12 +7,15 @@ public class MonsterStats : EntityStats // 부모의 스탯 필드 및 InitStats 상속
     [Header("Monster Data (ScriptableObject)")]
     [SerializeField] private MonsterData currentMonsterData;
 
+    // MonsterStats.cs 상단 변수 선언부 영역에 추가/변경
     [Header("UI Extension References")]
-    [SerializeField] private Image monsterGraphicImage;
+    [SerializeField] private Image monsterGraphicImage; //
 
-    // ★ [변경] 이미지 컴포넌트 대신 텍스트 컴포넌트를 받아옵니다!
-    // 만약 텍스트메시프로를 쓰신다면 Text 대신 TextMeshProUGUI를 쓰시면 됩니다.
-    [SerializeField] private TextMeshProUGUI intentText;
+    // 1. 작은 사각형 위에 상시 노출될 요약 텍스트 (예: "Attack")
+    [SerializeField] private TextMeshProUGUI intentText; //
+
+    // 2. ★ [추가] 마우스를 올렸을 때 판넬(IntentTooltipPanel) 내부에서 보여줄 상세 설명 텍스트
+    [SerializeField] private TextMeshProUGUI intentDetailText;
 
     private int patternIndex = 0;
 
@@ -98,9 +101,14 @@ public class MonsterStats : EntityStats // 부모의 스탯 필드 및 InitStats 상속
             // 2. 텍스트 내용 주입
             // 만약 MonsterData 기획 단계에서 적어둔 상세 설명(intentDescription)을 바로 띄우고 싶다면 
             // intentText.text = nextAction.intentDescription; 으로 교체하셔도 됩니다!
-            intentText.text = $"다음 행동: [{nextAction.actionType}] ({nextAction.value})";
+            intentText.text = $"행동 예고: [{nextAction.actionType}] ({nextAction.value})";
+
+            if (intentDetailText != null)
+            {
+                intentDetailText.text = $"<b>\"{nextAction.monsterDialogue}\"</b>\n\n{nextAction.intentDescription}";
+            }
         }
-    }
+        }
 
     public void ExecuteMonsterTurn()
     {
@@ -142,6 +150,23 @@ public class MonsterStats : EntityStats // 부모의 스탯 필드 및 InitStats 상속
 
     protected override void Die()
     {
+        // ★ [핵심 추가] 몬스터가 사망할 때(전투 승리 시) 일러스트를 승리 그래픽으로 교체합니다.
+        if (currentMonsterData != null && currentMonsterData.monsterVictoryGraphic != null)
+        {
+            if (monsterGraphicImage != null)
+            {
+                monsterGraphicImage.sprite = currentMonsterData.monsterVictoryGraphic;
+                Debug.Log($"<color=green>[전투 승리]</color> {gameObject.name}이 마음을 열어 승리 일러스트로 교체되었습니다!");
+            }
+        }
+
+        // 의도 텍스트가 남아있으면 어색하므로 사망 시 비워줍니다.
+        if (intentText != null)
+        {
+            intentText.text = "";
+        }
+
+        // 부모 클래스(EntityStats)의 기존 사망 처리(사망 팝업 띄우기, 씬 전환 준비 등)를 그대로 실행합니다.
         base.Die();
     }
 }

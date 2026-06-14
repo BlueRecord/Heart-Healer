@@ -5708,7 +5708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -719, y: -65.002}
+  m_AnchoredPosition: {x: -613, y: -65.002}
   m_SizeDelta: {x: 273.1443, y: 477.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1798272533
@@ -5899,16 +5899,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
   startingCards:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
+  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
+  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
+  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
+  - {fileID: 11400000, guid: 7da5f4a13aebbdd488268765df73b880, type: 2}
+  - {fileID: 11400000, guid: c1973bc0ae69db64fb770eb3db6bd944, type: 2}
+  - {fileID: 11400000, guid: c1973bc0ae69db64fb770eb3db6bd944, type: 2}
+  - {fileID: 11400000, guid: c1973bc0ae69db64fb770eb3db6bd944, type: 2}
+  - {fileID: 11400000, guid: c1973bc0ae69db64fb770eb3db6bd944, type: 2}
+  - {fileID: 11400000, guid: c1973bc0ae69db64fb770eb3db6bd944, type: 2}
 --- !u!4 &1825005466
 Transform:
   m_ObjectHideFlags: 0
@@ -6497,7 +6497,7 @@ MonoBehaviour:
   monsterPrefab: {fileID: 1313098318353350068, guid: eb482ed8f4bf8c448b62421347eb4cfe, type: 3}
   playerSpawnPoint: {fileID: 2034716418}
   monsterSpawnPoint: {fileID: 1741284313}
-  stageMonsterData: {fileID: 11400000, guid: 8b32840f1db183141aa80980b3999c74, type: 2}
+  stageMonsterData: {fileID: 11400000, guid: 1499c7bbf26d0aa489edd3b7afae7054, type: 2}
 --- !u!4 &2050695388
 Transform:
   m_ObjectHideFlags: 0

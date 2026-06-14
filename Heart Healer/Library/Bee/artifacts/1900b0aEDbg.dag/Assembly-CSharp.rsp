@@ -475,6 +475,7 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.3.11f1/Editor/Data/Tools/BuildPipeline/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
 "Assets/BattleScene/Battle/BattleManager.cs"
 "Assets/BattleScene/Battle/CombatUIController.cs"
+"Assets/BattleScene/Battle/IntentHoverTooltip.cs"
 "Assets/BattleScene/Battle/OpenGraveAndDeck.cs"
 "Assets/BattleScene/Card/CardData.cs"
 "Assets/BattleScene/Card/CardEffectProcessor.cs"
